@@ -35,11 +35,11 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    @AfterPermissionGranted(RC_LOCATION)
     override fun requestLocationPermissions() {
-        if(EasyPermissions.hasPermissions(this, *this.locationPermissions()))
+        if(EasyPermissions.hasPermissions(this, *this.locationPermissions())) {
             Timber.i("User has granted access to location.")
-        else{
+            goToHome()
+        }else{
             EasyPermissions.requestPermissions(this, getString(R.string.location_rationale), RC_LOCATION, *this.locationPermissions())
         }
     }

@@ -9,6 +9,7 @@ import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivityHomeBinding
+import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,6 +39,14 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         getViewModel().isLoading.observe(this, Observer { loading ->
             getViewBinding().progressIndicator.visibility = if(loading == true) View.VISIBLE else View.GONE
         })
+    }
+
+    override fun handleError(error: Throwable) {
+
+        if(error is NoInformationAvailableToPresentToTheUserException){
+
+        }
+
     }
 
     override fun getDirectionAsString(direction: Int): String {
