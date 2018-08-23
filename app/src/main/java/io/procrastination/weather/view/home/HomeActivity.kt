@@ -1,14 +1,19 @@
 package io.procrastination.weather.view.home
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivityHomeBinding
+import io.procrastination.weather.domain.model.*
+import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(){
+class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), HomeNavigator{
 
     companion object {
         fun getStartIntent(context : Context) : Intent {
@@ -24,4 +29,28 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(){
 
     override fun getBindingVariableId(): Int? = BR.viewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getViewModel().weatherInfo.observe(this, Observer {
+            Timber.i("here")
+        })
+
+        getViewModel().isLoading.observe(this, Observer { loading ->
+            getViewBinding().progressIndicator.visibility = if(loading == true) View.VISIBLE else View.GONE
+        })
+    }
+
+    override fun getDirectionAsString(direction: Int): String {
+        return when(direction){
+            NORTH       -> getString(R.string.north)
+            NORTH_EAST  -> getString(R.string.north_east)
+            EAST        -> getString(R.string.east)
+            SOUTH_EAST  -> getString(R.string.south_east)
+            SOUTH       -> getString(R.string.south)
+            SOUTH_WEST  -> getString(R.string.south_west)
+            WEST        -> getString(R.string.west)
+            NORTH_WEST  -> getString(R.string.north_west)
+            else        -> getString(R.string.unknown)
+        }
+    }
 }

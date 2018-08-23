@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -11,6 +13,114 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txt_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{viewModel.location}"
+            tools:text="Luton, UK"
+            />
+
+        <TextView
+            android:id="@+id/txt_conditions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_location"
+            android:text="@{viewModel.condition}"
+            tools:text="Clear Sky"
+            />
+
+        <TextView
+            android:id="@+id/txt_temperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_conditions"
+            android:text="@{viewModel.temperature}"
+            tools:text="23ºC"
+            />
+
+        <TextView
+            android:id="@+id/txt_wind_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_temperature"
+            android:text="@{viewModel.windspeed}"
+            tools:text="Luton, UK"
+            />
+
+        <TextView
+            android:id="@+id/txt_wind_orientation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_wind_speed"
+            android:text="@{viewModel.windDirection}"
+            tools:text="North"
+            />
+
+        <TextView
+            android:id="@+id/txt_last_update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_wind_orientation"
+            android:text="@{viewModel.lastUpdate}"
+            android:textSize="10sp"
+            android:textColor="@color/grey"
+            tools:text="North"
+            />
+
+        <ProgressBar
+            android:id="@+id/progress_indicator"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_refresh"
+            android:onClick="@{() -> viewModel.onPressedRefeshWeather()}"
+            />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

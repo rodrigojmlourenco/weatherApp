@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="location_rationale">Weather needs to know your location to provide you with the best weather information.</string>
+    <string name="north">North</string>
+    <string name="north_east">North East</string>
+    <string name="east">East</string>
+    <string name="south_east">South East</string>
+    <string name="unknown">Unknown</string>
+    <string name="north_west">North West</string>
+    <string name="west">West</string>
+    <string name="south">South</string>
+    <string name="south_west">South West</string>
 </resources>

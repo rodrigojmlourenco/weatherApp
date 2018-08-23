@@ -22,6 +22,7 @@ class HomeModule {
         vm.setGetWeatherInfoUseCase(useCase)
 
         (locationHandler as? FusedLocationHandler)?.let { it.setupActivity(view) }
+        vm.setLocationHandler(locationHandler)
 
         return vm
     }

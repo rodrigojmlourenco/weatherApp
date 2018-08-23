@@ -44,6 +44,7 @@ dependencies {
     implementation Dependencies.supportCompatV7
     implementation Dependencies.supportConstraintLayout
     implementation Dependencies.supportRecyclerView
+    implementation 'com.android.support:design:27.1.1'
 
     implementation ArchDependencies.lifeCycleExts
     implementation ArchDependencies.lifeCycleJava8
