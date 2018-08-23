@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import com.bumptech.glide.Glide
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
@@ -37,6 +38,7 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getViewModel().weatherInfo.observe(this, Observer {
+            it?.icon?.let { icon -> Glide.with(this).load(icon).into(getViewBinding().ivWeather) }
             getViewBinding().groupOutdated.visibility = View.GONE
             getViewBinding().fabRefresh.visibility = View.VISIBLE
         })
