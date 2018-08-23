@@ -1,6 +1,7 @@
 package io.procrastination.foundation.domain.usecases
 
 import android.arch.lifecycle.MutableLiveData
+import io.procrastination.foundation.view.FoundationNavigator
 import io.procrastination.foundation.view.containIn
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
@@ -12,6 +13,7 @@ interface UseCaseExecutor {
 
     val isLoading : MutableLiveData<Boolean>
     val usecaseContainer : CompositeDisposable
+    val navigator : FoundationNavigator
 
     /* Foreground
      ************************************************************************************************/
@@ -22,11 +24,19 @@ interface UseCaseExecutor {
      * @param onSuccess [Consumer] that specified the on success behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>){
         execute(useCase, input, onSuccess = onSuccess, isForeground = true)
     }
 
+    open fun buildStandardErrorHandler(isForeground: Boolean, navigator : FoundationNavigator) : Consumer<Throwable> {
+        return Consumer {
+            if(isForeground) isLoading.postValue(false)
+
+            navigator.handleError(it)
+            Timber.e(it)
+        }
+    }
 
     /**
      * Executes the provided use case with the input parameter, with foreground feedback, i.e. loading.
@@ -36,7 +46,7 @@ interface UseCaseExecutor {
      * @param onSuccess [Consumer] that specified the on success behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>){
         execute(useCase, input, filter = filter, onSuccess = onSuccess, isForeground = true)
     }
@@ -50,7 +60,7 @@ interface UseCaseExecutor {
      * @param onError [Consumer] that specifies the on error behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>, onError: Consumer<Throwable>){
         execute(useCase, input, filter = filter, onSuccess = onSuccess, onError = onError, isForeground = true)
     }
@@ -63,7 +73,7 @@ interface UseCaseExecutor {
      * @param onError [Consumer] that specifies the on error behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>, onError: Consumer<Throwable>){
         execute(useCase, input, onSuccess = onSuccess, isForeground = true)
     }
@@ -78,7 +88,7 @@ interface UseCaseExecutor {
      * @param onError [Consumer] that specifies the on error behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInBackground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>, onError: Consumer<Throwable>){
         execute(useCase, input, onSuccess = onSuccess, onError = onError, isForeground = false)
     }
@@ -90,7 +100,7 @@ interface UseCaseExecutor {
      * @param onSuccess [Consumer] that specifies the on success behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
-    */
+     */
     fun <T, P> executeUseCaseInBackground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>){
         execute(useCase, input, onSuccess = onSuccess, isForeground = false)
     }
@@ -103,7 +113,7 @@ interface UseCaseExecutor {
      * @param onSuccess
      * @param <T>
      * @param <P>
-    */
+     */
     fun <T, P> executeUseCaseInBackground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>) {
         execute(useCase, input, filter, onSuccess, isForeground = false)
     }
@@ -112,14 +122,16 @@ interface UseCaseExecutor {
                                input: P,
                                filter : Predicate<T> = Predicate { true },
                                onSuccess : Consumer<T>,
-                               onError: Consumer<Throwable> = Consumer { Timber.e(it) },
+                               onError: Consumer<Throwable>? = null,
                                isForeground : Boolean) {
 
         if(isForeground) isLoading.postValue(true)
 
-        useCase.execute(input, filter, onSuccess, onError, Action {
-            if(isForeground) isLoading.postValue(false)
-        }).containIn(usecaseContainer)
+        useCase.execute(input, filter, onSuccess,
+                onError?: buildStandardErrorHandler(isForeground, navigator),
+                Action {
+                    if(isForeground) isLoading.postValue(false)
+                }).containIn(usecaseContainer)
 
     }
 }

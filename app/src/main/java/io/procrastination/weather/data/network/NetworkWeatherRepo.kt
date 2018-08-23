@@ -8,9 +8,9 @@ import io.reactivex.Single
 import okhttp3.Interceptor
 
 
-class NetworkWeatherRepo
+open class NetworkWeatherRepo
 constructor(baseUrl : String,
-            private val apiKey : String) : BaseServiceGenerator<WeatherApi>(baseUrl), WeatherRepository {
+            protected val apiKey : String) : BaseServiceGenerator<WeatherApi>(baseUrl), WeatherRepository {
 
     override val serviceClass: Class<WeatherApi>
         get() = WeatherApi::class.java

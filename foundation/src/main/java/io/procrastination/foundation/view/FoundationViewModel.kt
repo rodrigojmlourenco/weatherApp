@@ -12,6 +12,9 @@ abstract class FoundationViewModel<N : FoundationNavigator> : ViewModel(), Defau
     lateinit var mNavigator: N
     private var mCompositeDisposable : CompositeDisposable? = null
 
+    override val navigator : FoundationNavigator
+        get() = mNavigator
+
     override val usecaseContainer: CompositeDisposable
         get() {
             if(mCompositeDisposable == null || mCompositeDisposable!!.isDisposed)

@@ -11,7 +11,8 @@ class ConstantsModule {
 
     @Provides @Named("weather-endpoint")
     fun provideWeatherEndpoint() : String {
-        return "https://samples.openweathermap.org/data/2.5/"
+        //return "https://samples.openweathermap.org/data/2.5/"
+        return "https://api.openweathermap.org/data/2.5/"
     }
 
     @Provides @Named("weather-key")

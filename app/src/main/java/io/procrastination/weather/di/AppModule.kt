@@ -1,10 +1,12 @@
 package io.procrastination.weather.di
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.procrastination.foundation.domain.schedueler.Scheduler
+import io.procrastination.weather.data.local.WeatherDatabase
 import io.procrastination.weather.domain.protocols.LocationHandler
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.procrastination.weather.view.handlers.ConnectivityManagerNetworkHandler
@@ -48,5 +50,12 @@ class AppModule {
     @Provides
     fun provideNetworkHandler(context: Context) : NetworkHandler {
         return ConnectivityManagerNetworkHandler(context)
+    }
+
+    @Provides @Singleton
+    fun provideWeatherDatabase(context: Context) : WeatherDatabase {
+        return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather-db")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }
