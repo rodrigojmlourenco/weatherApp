@@ -1,4 +1,4 @@
-package io.procrastination.weather.data.local
+package io.procrastination.weather.domain.protocols
 
 import io.procrastination.weather.domain.model.WeatherInfo
 import io.reactivex.Single

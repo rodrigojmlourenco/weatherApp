@@ -2,7 +2,7 @@ package io.procrastination.weather.di.modules
 
 import dagger.Module
 import dagger.Provides
-import io.procrastination.weather.data.local.LocalWeatherRepository
+import io.procrastination.weather.domain.protocols.LocalWeatherRepository
 import io.procrastination.weather.data.local.RoomWeatherRepository
 import io.procrastination.weather.data.local.WeatherDatabase
 import io.procrastination.weather.data.network.NetworkWeatherRepo
@@ -14,9 +14,10 @@ class RepositoriesModule {
 
     @Provides
     fun provideWeatherRepository(@Named("weather-endpoint") baseUrl : String,
-                                 @Named("weather-key") apiKey : String) : WeatherRepository {
+                                 @Named("weather-key") apiKey : String,
+                                 @Named("weather-icons") iconsBaseUrl : String) : WeatherRepository {
 
-        return NetworkWeatherRepo(baseUrl, apiKey)
+        return NetworkWeatherRepo(baseUrl, apiKey, iconsBaseUrl)
     }
 
     @Provides

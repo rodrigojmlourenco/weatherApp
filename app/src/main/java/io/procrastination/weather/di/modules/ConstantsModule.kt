@@ -19,4 +19,9 @@ class ConstantsModule {
     fun provideWeatherApiKey(context : Context) : String {
         return context.getString(R.string.weather_api)
     }
+
+    @Provides @Named("weather-icons")
+    fun provideWeatherIconsEndpoint() : String {
+        return "http://openweathermap.org/img/w/"
+    }
 }

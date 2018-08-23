@@ -1,5 +1,6 @@
 package io.procrastination.weather.data.local
 
+import io.procrastination.weather.domain.protocols.LocalWeatherRepository
 import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.WeatherInfo
 import io.reactivex.Single

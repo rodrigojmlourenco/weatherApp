@@ -1,6 +1,5 @@
 package io.procrastination.weather.data.network
 
-import io.procrastination.weather.data.network.NetworkWeatherRepo
 import io.procrastination.weather.domain.model.LocationInfo
 import org.junit.Assert
 import org.junit.Test
@@ -11,11 +10,12 @@ class NetworkWeatherRepoTest {
 
     private val apiKey = "b6907d289e10d714a6e88b30761fae22"
     private val baseUrl = "https://samples.openweathermap.org/data/2.5/"
+    private val iconsUrl = "http://openweathermap.org/img/w/"
 
     @Test
     fun testRepo_fetchByCoordinates(){
 
-        val repo = NetworkWeatherRepo(baseUrl, apiKey)
+        val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
         val testObs = repo.getWeatherInfo(33.toDouble(), 33.toDouble()).test()
 
@@ -32,7 +32,7 @@ class NetworkWeatherRepoTest {
     @Test
     fun testRepo_fetchByCity(){
 
-        val repo = NetworkWeatherRepo(baseUrl, apiKey)
+        val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
         val testObs = repo.getWeatherInfo("London").test()
 
@@ -49,7 +49,7 @@ class NetworkWeatherRepoTest {
 
     @Test
     fun testRepo_fetchByZipCode(){
-        val repo = NetworkWeatherRepo(baseUrl, apiKey)
+        val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
         val testObs = repo.getWeatherInfo("", zipCode = "9404").test()
 

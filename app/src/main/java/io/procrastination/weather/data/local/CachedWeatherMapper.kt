@@ -1,10 +1,11 @@
 package io.procrastination.weather.data.local
 
+import io.procrastination.weather.domain.protocols.Mapper
 import io.procrastination.weather.domain.model.LocationInfo
 import io.procrastination.weather.domain.model.WeatherInfo
 import java.util.*
 
-class CachedWeatherMapper : Mapper<WeatherInfo,CachedWeatherInfo>{
+class CachedWeatherMapper : Mapper<WeatherInfo, CachedWeatherInfo> {
 
     override fun fromModel(model: WeatherInfo): CachedWeatherInfo {
         return CachedWeatherInfo(generatePrimaryKey(model),
@@ -17,7 +18,8 @@ class CachedWeatherMapper : Mapper<WeatherInfo,CachedWeatherInfo>{
                 model.location.longitude,
                 model.location.city,
                 model.location.country,
-                model.location.zipCode)
+                model.location.zipCode,
+                model.icon)
     }
 
     override fun toModel(cachedItem: CachedWeatherInfo): WeatherInfo {
@@ -26,7 +28,8 @@ class CachedWeatherMapper : Mapper<WeatherInfo,CachedWeatherInfo>{
                 cachedItem.windSpeed,
                 cachedItem.windDirecton,
                 Date(cachedItem.timestamp),
-                LocationInfo(cachedItem.latitude, cachedItem.longitude, cachedItem.city, cachedItem.countryCode, cachedItem.zipCode))
+                LocationInfo(cachedItem.latitude, cachedItem.longitude, cachedItem.city, cachedItem.countryCode, cachedItem.zipCode),
+                cachedItem.icon)
     }
 
     private fun generatePrimaryKey(item : WeatherInfo) : String {

@@ -4,7 +4,7 @@ import io.procrastination.foundation.data.DTOMapper
 import io.procrastination.weather.domain.model.*
 import java.util.*
 
-class WeatherMapper : DTOMapper<WeatherInfoDTO, WeatherInfo> {
+class WeatherMapper(private val iconBaseUrl : String) : DTOMapper<WeatherInfoDTO, WeatherInfo> {
 
     override fun toModel(dto: WeatherInfoDTO): WeatherInfo {
 
@@ -13,7 +13,8 @@ class WeatherMapper : DTOMapper<WeatherInfoDTO, WeatherInfo> {
                 dto.wind.speed.toInt(),
                 degreeToCompassDirection(dto.wind),
                 Date(dto.timestamp.toLong()*1000),
-                LocationInfo(dto.coordinates.latitude, dto.coordinates.longitude, dto.name, dto.sys.country))
+                LocationInfo(dto.coordinates.latitude, dto.coordinates.longitude, dto.name, dto.sys.country),
+                buildIconUrl(dto))
     }
 
     @Direction
@@ -32,5 +33,12 @@ class WeatherMapper : DTOMapper<WeatherInfoDTO, WeatherInfo> {
             deg >= 315 && deg < 360 -> NORTH_WEST
             else -> NORTH
         }
+    }
+
+    private fun buildIconUrl(dto : WeatherInfoDTO) : String? {
+        return if(dto.weather.isNotEmpty())
+            "$iconBaseUrl${dto.weather[0].icon}.png"
+        else
+            null
     }
 }

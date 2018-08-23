@@ -2,10 +2,10 @@ package io.procrastination.weather.domain
 
 import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.procrastination.foundation.domain.usecases.ObservableUseCase
-import io.procrastination.weather.data.local.LocalWeatherRepository
 import io.procrastination.weather.domain.error.CachedInformationIsTooOldException
 import io.procrastination.weather.domain.model.LocationInfo
 import io.procrastination.weather.domain.model.WeatherInfo
+import io.procrastination.weather.domain.protocols.LocalWeatherRepository
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.procrastination.weather.domain.protocols.WeatherRepository
 import io.reactivex.Observable
@@ -29,6 +29,7 @@ constructor(scheduler: Scheduler,
             private val repository: WeatherRepository,
             private val networkHandler: NetworkHandler,
             private val localRepository: LocalWeatherRepository)
+
     : ObservableUseCase<WeatherInfo, LocationInfo>(scheduler){
 
 

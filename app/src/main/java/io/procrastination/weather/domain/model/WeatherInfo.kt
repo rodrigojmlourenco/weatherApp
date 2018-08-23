@@ -8,4 +8,9 @@ constructor(val condition : String,
             val windSpeed : Int,
             @field:Direction val windDirection : Int,
             val lastUpdatedAt : Date,
-            val location : LocationInfo)
+            val location : LocationInfo,
+            val icon : String? = null){
+
+    constructor(info: WeatherInfo, icon: String)
+            : this(info.condition, info.temperature, info.windSpeed, info.windDirection, info.lastUpdatedAt, info.location, icon)
+}

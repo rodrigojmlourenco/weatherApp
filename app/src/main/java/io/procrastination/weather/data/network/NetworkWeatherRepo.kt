@@ -10,7 +10,8 @@ import okhttp3.Interceptor
 
 open class NetworkWeatherRepo
 constructor(baseUrl : String,
-            protected val apiKey : String) : BaseServiceGenerator<WeatherApi>(baseUrl), WeatherRepository {
+            protected val apiKey : String,
+            private val iconsUrl : String) : BaseServiceGenerator<WeatherApi>(baseUrl), WeatherRepository {
 
     override val serviceClass: Class<WeatherApi>
         get() = WeatherApi::class.java
@@ -27,7 +28,7 @@ constructor(baseUrl : String,
                     if(it.code != 200){
                         throw UnableToFetchWeatherInfo()
                     }else{
-                        WeatherMapper().toModel(it)
+                        WeatherMapper(iconsUrl).toModel(it)
                     }
                 }
     }
@@ -46,7 +47,7 @@ constructor(baseUrl : String,
             if(it.code != 200){
                 throw UnableToFetchWeatherInfo()
             }else{
-                WeatherMapper().toModel(it)
+                WeatherMapper(iconsUrl).toModel(it)
             }
         }
     }

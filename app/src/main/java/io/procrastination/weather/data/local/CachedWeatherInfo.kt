@@ -15,4 +15,5 @@ class CachedWeatherInfo(@PrimaryKey val id : String,
                         @ColumnInfo(name = "longitude") val longitude : Double,
                         @ColumnInfo(name = "city") val city : String?,
                         @ColumnInfo(name = "countryCode") val countryCode : String?,
-                        @ColumnInfo(name = "zipCode") val zipCode : String?)
+                        @ColumnInfo(name = "zipCode") val zipCode : String?,
+                        @ColumnInfo(name = "icon") val icon : String?)
