@@ -48,17 +48,21 @@ object Dependencies {
 
 
     //Android Architecture Components
-    const val archLifeCycleExts = "android.arch.lifecycle:extensions:${Versions.androidArch}"
-    const val archLifeCycleJava8 = "android.arch.lifecycle:common-java8:${Versions.androidArch}"
-    const val archRoom =  "android.arch.persistence.room:runtime:${Versions.androidArch}"
-    const val archRoomCompiler =  "android.arch.persistence.room:compiler:${Versions.androidArch}" // use kapt for Kotlin
-    const val archRoomRx = "android.arch.persistence.room:rxjava2:${Versions.androidArch}"
+
 
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
+}
+
+object ArchDependencies {
+    const val lifeCycleExts = "android.arch.lifecycle:extensions:${Versions.androidArch}"
+    const val lifeCycleJava8 = "android.arch.lifecycle:common-java8:${Versions.androidArch}"
+    const val room =  "android.arch.persistence.room:runtime:${Versions.androidArch}"
+    const val roomCompiler =  "android.arch.persistence.room:compiler:${Versions.androidArch}" // use kapt for Kotlin
+    const val roomRx = "android.arch.persistence.room:rxjava2:${Versions.androidArch}"
 }
 
 object PlayServicesDependencies {

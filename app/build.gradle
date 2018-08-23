@@ -45,8 +45,10 @@ dependencies {
     implementation Dependencies.supportConstraintLayout
     implementation Dependencies.supportRecyclerView
 
-    implementation Dependencies.archLifeCycleExts
-    implementation Dependencies.archLifeCycleJava8
+    implementation ArchDependencies.lifeCycleExts
+    implementation ArchDependencies.lifeCycleJava8
+    implementation ArchDependencies.room
+    implementation ArchDependencies.roomRx
 
     implementation PlayServicesDependencies.locationAndActivityRecog
     implementation 'pub.devrel:easypermissions:1.3.0'
@@ -64,10 +66,12 @@ dependencies {
 
     implementation InjectionDependencies.dagger2_android
     implementation InjectionDependencies.dagger2_androidSupport
-    kapt InjectionDependencies.dagger2_compiler
-    kapt InjectionDependencies.dagger2_annotation
 
     implementation Dependencies.glide
+
+    kapt ArchDependencies.roomCompiler
+    kapt InjectionDependencies.dagger2_compiler
+    kapt InjectionDependencies.dagger2_annotation
     kapt Dependencies.glideCompiler
 
     testImplementation TestingDependencies.junit4

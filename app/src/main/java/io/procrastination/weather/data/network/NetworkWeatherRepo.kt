@@ -3,7 +3,7 @@ package io.procrastination.weather.data.network
 import io.procrastination.foundation.data.BaseServiceGenerator
 import io.procrastination.weather.domain.error.UnableToFetchWeatherInfo
 import io.procrastination.weather.domain.model.WeatherInfo
-import io.procrastination.weather.domain.repositories.WeatherRepository
+import io.procrastination.weather.domain.protocols.WeatherRepository
 import io.reactivex.Single
 import okhttp3.Interceptor
 

@@ -37,8 +37,8 @@ dependencies {
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.supportCompatV7
 
-    implementation Dependencies.archLifeCycleExts
-    implementation Dependencies.archLifeCycleJava8
+    implementation ArchDependencies.lifeCycleExts
+    implementation ArchDependencies.lifeCycleJava8
 
 
     implementation NetworkDependencies.retrofit2
