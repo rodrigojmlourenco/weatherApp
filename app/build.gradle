@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "io.procrastination.streetbees"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding { enabled true }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+configurations.all {
+
+    resolutionStrategy {
+        failOnVersionConflict()
+        preferProjectModules()
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':foundation')
+
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.supportCompatV7
+    implementation Dependencies.supportConstraintLayout
+    implementation Dependencies.supportRecyclerView
+
+    implementation Dependencies.archLifeCycleExts
+    implementation Dependencies.archLifeCycleJava8
+
+    implementation RxDependencies.rxJava
+    implementation RxDependencies.rxAndroid
+    implementation RxDependencies.rxKotlin
+
+    implementation NetworkDependencies.retrofit2
+    implementation NetworkDependencies.retrofit2_gson
+    implementation NetworkDependencies.retrofit2_rx
+    implementation NetworkDependencies.okHttp3_logging
+
+    implementation Dependencies.timber
+
+    implementation InjectionDependencies.dagger2_android
+    implementation InjectionDependencies.dagger2_androidSupport
+    kapt InjectionDependencies.dagger2_compiler
+    kapt InjectionDependencies.dagger2_annotation
+
+    implementation Dependencies.glide
+    kapt Dependencies.glideCompiler
+
+    testImplementation TestingDependencies.junit4
+    androidTestImplementation TestingDependencies.testRunner
+    androidTestImplementation TestingDependencies.espresso
+}
