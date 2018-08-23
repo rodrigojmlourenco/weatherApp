@@ -3,8 +3,10 @@ package io.procrastination.weather.view.home
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
+import android.databinding.Observable
 import android.os.Bundle
 import android.provider.Settings
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.bumptech.glide.Glide
 import io.procrastination.foundation.view.FoundationActivity
@@ -15,6 +17,7 @@ import io.procrastination.weather.domain.error.CachedInformationIsTooOldExceptio
 import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.*
 import io.procrastination.weather.domain.protocols.NetworkHandler
+import io.reactivex.functions.Consumer
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,13 +42,27 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         super.onCreate(savedInstanceState)
         getViewModel().weatherInfo.observe(this, Observer {
             it?.icon?.let { icon -> Glide.with(this).load(icon).into(getViewBinding().ivWeather) }
-            getViewBinding().groupOutdated.visibility = View.GONE
-            getViewBinding().fabRefresh.visibility = View.VISIBLE
+            getViewBinding().groupOutdated.visibility   = View.GONE
         })
 
         getViewModel().isLoading.observe(this, Observer { loading ->
             getViewBinding().progressIndicator.visibility = if(loading == true) View.VISIBLE else View.GONE
         })
+
+        //Adjust according to the network state
+        toggleRefreshVisibility(mNetworkHandler.hasNetworkConnectivity())
+        mNetworkHandler.hasNetworkConnectivity(Consumer {hasNetwork ->
+            if(hasNetwork) getViewModel().onPressedRefeshWeather()
+            toggleRefreshVisibility(hasNetwork)
+        })
+    }
+
+    private fun toggleRefreshVisibility(hasNetwork : Boolean){
+        if(hasNetwork){
+            getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_refresh))
+        }else{
+            getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_no_network   ))
+        }
     }
 
     override fun handleError(error: Throwable) {

@@ -2,11 +2,14 @@ package io.procrastination.weather.view.home
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import io.procrastination.foundation.view.FoundationViewModel
+import io.procrastination.foundation.view.containIn
 import io.procrastination.weather.domain.UseCaseGetWeatherInfo
 import io.procrastination.weather.domain.model.WeatherInfo
 import io.procrastination.weather.domain.protocols.LocationHandler
+import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
 import java.text.SimpleDateFormat
 
@@ -14,6 +17,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
 
     private lateinit var getWeatherInfoUseCase: UseCaseGetWeatherInfo
     private lateinit var locationHandler: LocationHandler
+    private lateinit var networkHandler: NetworkHandler
 
     val weatherInfo = MutableLiveData<WeatherInfo>()
 
@@ -23,6 +27,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
     val windspeed = ObservableField<String>()
     val windDirection = ObservableField<String>()
     val lastUpdate = ObservableField<String>()
+    val hasConnectivity = ObservableBoolean(true)
 
     fun setGetWeatherInfoUseCase(useCase: UseCaseGetWeatherInfo) {
         this.getWeatherInfoUseCase = useCase
@@ -32,13 +37,24 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
         this.locationHandler = handler
     }
 
+    fun setNetworkHandler(handler: NetworkHandler){
+        this.networkHandler = handler
+    }
+
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
         loadWeatherInfo()
+
+        hasConnectivity.set(networkHandler.hasNetworkConnectivity())
+        networkHandler.hasNetworkConnectivity(Consumer { hasConnectivity.set(it) }).containIn(usecaseContainer)
     }
 
     fun onPressedRefeshWeather(){
-        loadWeatherInfo()
+
+        if(hasConnectivity.get())
+            loadWeatherInfo()
+        else
+            mNavigator.goToWifiSettings()
     }
 
     fun onPressedConnectWifi(){
