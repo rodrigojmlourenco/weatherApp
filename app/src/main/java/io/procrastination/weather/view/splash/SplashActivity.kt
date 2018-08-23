@@ -10,6 +10,7 @@ import io.procrastination.weather.view.home.HomeActivity
 import io.procrastination.weather.view.locationPermissions
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -29,10 +30,15 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
         finish()
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
     @AfterPermissionGranted(RC_LOCATION)
     override fun requestLocationPermissions() {
         if(EasyPermissions.hasPermissions(this, *this.locationPermissions()))
-            goToHome()
+            Timber.i("User has granted access to location.")
         else{
             EasyPermissions.requestPermissions(this, getString(R.string.location_rationale), RC_LOCATION, *this.locationPermissions())
         }

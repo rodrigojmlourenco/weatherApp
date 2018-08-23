@@ -1,5 +1,6 @@
 package io.procrastination.weather.data.local
 
+import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.WeatherInfo
 import io.reactivex.Single
 
@@ -19,7 +20,7 @@ class RoomWeatherRepository(database: WeatherDatabase) : LocalWeatherRepository 
         return weatherDao.getCachedWeatherFromCity(city)
                 .map {
                     if(it.isEmpty())
-                        throw Exception()
+                        throw NoInformationAvailableToPresentToTheUserException()
                     else
                         CachedWeatherMapper().toModel(it[0])
                 }
