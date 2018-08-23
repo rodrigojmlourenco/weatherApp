@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ed1d24</color>
-    <color name="colorPrimaryDark">@color/vermilion</color>
-    <color name="colorAccent">@color/blue</color>
+    <color name="colorPrimary">@color/violet</color>
+    <color name="colorPrimaryDark">@color/violet_dark</color>
+    <color name="colorAccent">@color/yellowish</color>
 
     <color name="red">#ed1d24</color>
     <color name="vermilion">#ed1d24</color>
@@ -13,5 +13,12 @@
     <color name="orange">#f78f3f</color>
     <color name="background">@color/white</color>
     <color name="green">#20c218</color>
+    <color name="yellowish">#efdd6f</color>
+
+    <color name="violet">#5F4B8B</color>
+    <color name="violet_darkX">#281553</color>
+    <color name="violet_dark">#432d71</color>
+    <color name="violet_light">#8271a7</color>
+    <color name="violet_lighter">#afa3c8</color>
 
 </resources>
