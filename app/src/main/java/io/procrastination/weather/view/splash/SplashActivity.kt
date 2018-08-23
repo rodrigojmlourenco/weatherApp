@@ -1,12 +1,12 @@
 package io.procrastination.weather.view.splash
 
-import android.databinding.ViewDataBinding
 import android.view.View
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivitySplashBinding
 import io.procrastination.weather.view.RC_LOCATION
+import io.procrastination.weather.view.home.HomeActivity
 import io.procrastination.weather.view.locationPermissions
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -25,7 +25,8 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
     override fun getBindingVariableId(): Int? = BR.viewModel
 
     override fun goToHome() {
-        //TODO()
+        startActivity(HomeActivity.getStartIntent(this))
+        finish()
     }
 
     @AfterPermissionGranted(RC_LOCATION)
@@ -33,7 +34,7 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
         if(EasyPermissions.hasPermissions(this, *this.locationPermissions()))
             goToHome()
         else{
-            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale), RC_LOCATION, *this.locationPermissions());
+            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale), RC_LOCATION, *this.locationPermissions())
         }
     }
 

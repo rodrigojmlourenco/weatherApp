@@ -12,7 +12,8 @@ import io.reactivex.Observable
  * weather conditions in my area.
  */
 class UseCaseGetWeatherInfo
-constructor(scheduler: Scheduler, private val repository: WeatherRepository)
+constructor(scheduler: Scheduler,
+            private val repository: WeatherRepository)
     : ObservableUseCase<WeatherInfo, LocationInfo>(scheduler){
 
     override fun buildUseCaseObservable(params: LocationInfo): Observable<WeatherInfo> {
