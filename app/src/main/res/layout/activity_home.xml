@@ -12,7 +12,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <TextView
             android:id="@+id/txt_location"
@@ -112,6 +113,7 @@
             />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_refresh"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="24dp"
@@ -121,6 +123,59 @@
             android:src="@drawable/ic_refresh"
             android:onClick="@{() -> viewModel.onPressedRefeshWeather()}"
             />
+
+        <ImageView
+            android:id="@+id/iv_outdated"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_no_network"
+            android:tint="@color/violet_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.4"/>
+
+        <TextView
+            android:id="@+id/txt_outdated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginEnd="33dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_outdated"
+            android:textColor="@color/violet_dark"
+            android:textSize="16sp"
+            android:text="@string/connect_your_network_to_enable_the_freshests_results"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/btn_connect_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_now"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_outdated"
+            android:backgroundTint="@color/violet"
+            android:textColor="@color/whiteish"
+            android:onClick="@{() -> viewModel.onPressedConnectWifi()}"
+            />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_outdated"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="iv_outdated,txt_outdated,btn_connect_now"
+            android:visibility="gone"
+            tools:visibility="gone"
+            />
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>

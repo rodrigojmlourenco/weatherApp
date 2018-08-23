@@ -41,6 +41,10 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
         loadWeatherInfo()
     }
 
+    fun onPressedConnectWifi(){
+        mNavigator.goToWifiSettings()
+    }
+
     private fun loadWeatherInfo(){
         locationHandler.getUsersCurrentLocation(Consumer { location ->
             executeUseCaseInForeground(getWeatherInfoUseCase, location, Consumer {info ->

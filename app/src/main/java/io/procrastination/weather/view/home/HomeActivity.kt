@@ -4,13 +4,16 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivityHomeBinding
+import io.procrastination.weather.domain.error.CachedInformationIsTooOldException
 import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.*
+import io.procrastination.weather.domain.protocols.NetworkHandler
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,6 +26,7 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
     }
 
     @Inject lateinit var mViewModel: HomeViewModel
+    @Inject lateinit var mNetworkHandler: NetworkHandler
 
     override fun getViewModel(): HomeViewModel = mViewModel
 
@@ -33,7 +37,8 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getViewModel().weatherInfo.observe(this, Observer {
-            Timber.i("here")
+            getViewBinding().groupOutdated.visibility = View.GONE
+            getViewBinding().fabRefresh.visibility = View.VISIBLE
         })
 
         getViewModel().isLoading.observe(this, Observer { loading ->
@@ -43,8 +48,11 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
 
     override fun handleError(error: Throwable) {
 
-        if(error is NoInformationAvailableToPresentToTheUserException){
+        if(error is NoInformationAvailableToPresentToTheUserException
+                || error is CachedInformationIsTooOldException){
 
+            getViewBinding().groupOutdated.visibility = View.VISIBLE
+            getViewBinding().fabRefresh.visibility = View.GONE
         }
 
     }
@@ -61,5 +69,9 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
             NORTH_WEST  -> getString(R.string.north_west)
             else        -> getString(R.string.unknown)
         }
+    }
+
+    override fun goToWifiSettings() {
+        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
     }
 }

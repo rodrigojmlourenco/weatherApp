@@ -10,4 +10,6 @@
     <string name="west">West</string>
     <string name="south">South</string>
     <string name="south_west">South West</string>
+    <string name="connect_your_network_to_enable_the_freshests_results">Connect your network to enable the freshests results.</string>
+    <string name="connect_now">Connect now</string>
 </resources>

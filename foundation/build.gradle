@@ -36,6 +36,7 @@ dependencies {
 
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.supportCompatV7
+    implementation Dependencies.supportConstraintLayout
 
     implementation ArchDependencies.lifeCycleExts
     implementation ArchDependencies.lifeCycleJava8
