@@ -7,7 +7,7 @@ object Versions {
     const val constraintLayout = "1.1.2"
 
     //Android Achitecture Components
-    const val androidArch = "1.1.0"
+    const val androidArch = "1.1.1"
 
     //Network
     const val retrofit2 = "2.4.0"
@@ -27,6 +27,8 @@ object Versions {
     const val timber = "4.7.1"
 
     const val glide = "4.8.0"
+
+    const val playServices = "15.0.1"
 
 }
 
@@ -48,11 +50,19 @@ object Dependencies {
     //Android Architecture Components
     const val archLifeCycleExts = "android.arch.lifecycle:extensions:${Versions.androidArch}"
     const val archLifeCycleJava8 = "android.arch.lifecycle:common-java8:${Versions.androidArch}"
+    const val archRoom =  "android.arch.persistence.room:runtime:${Versions.androidArch}"
+    const val archRoomCompiler =  "android.arch.persistence.room:compiler:${Versions.androidArch}" // use kapt for Kotlin
+    const val archRoomRx = "android.arch.persistence.room:rxjava2:${Versions.androidArch}"
+
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
+}
+
+object PlayServicesDependencies {
+    const val locationAndActivityRecog = "com.google.android.gms:play-services-location:${Versions.playServices}"
 }
 
 object NetworkDependencies {

@@ -13,7 +13,10 @@ class SplashViewModel : FoundationViewModel<SplashNavigator>(){
         Observable.just(true)
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { mNavigator.goToHome() }
+                .subscribe { mNavigator.requestLocationPermissions() }
     }
 
+    fun onPressedRequestPermissions(){
+        mNavigator.requestLocationPermissions()
+    }
 }

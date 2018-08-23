@@ -48,6 +48,9 @@ dependencies {
     implementation Dependencies.archLifeCycleExts
     implementation Dependencies.archLifeCycleJava8
 
+    implementation PlayServicesDependencies.locationAndActivityRecog
+    implementation 'pub.devrel:easypermissions:1.3.0'
+
     implementation RxDependencies.rxJava
     implementation RxDependencies.rxAndroid
     implementation RxDependencies.rxKotlin

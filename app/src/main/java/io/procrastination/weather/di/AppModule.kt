@@ -5,6 +5,10 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.procrastination.foundation.domain.schedueler.Scheduler
+import io.procrastination.weather.domain.protocols.LocationHandler
+import io.procrastination.weather.domain.protocols.NetworkHandler
+import io.procrastination.weather.view.handlers.ConnectivityManagerNetworkHandler
+import io.procrastination.weather.view.handlers.FusedLocationHandler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -34,5 +38,15 @@ class AppModule {
     @Provides
     fun provideTimberTree() : Timber.Tree {
         return Timber.DebugTree()
+    }
+
+    @Provides
+    fun provideLocationHandler(context : Context) : LocationHandler {
+        return FusedLocationHandler(context)
+    }
+
+    @Provides
+    fun provideNetworkHandler(context: Context) : NetworkHandler {
+        return ConnectivityManagerNetworkHandler(context)
     }
 }
