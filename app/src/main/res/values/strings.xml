@@ -12,4 +12,7 @@
     <string name="south_west">South West</string>
     <string name="connect_your_network_to_enable_the_freshests_results">Connect your network to enable the freshests results.</string>
     <string name="connect_now">Connect now</string>
+    <string name="temperature">Temperature:</string>
+    <string name="wind_speed">Wind speed :</string>
+    <string name="wind_direction">Wind direction:</string>
 </resources>
