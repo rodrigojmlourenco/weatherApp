@@ -6,7 +6,7 @@ app/src/main/res/values/keys.xml
 # Built application files
 *.apk
 *.ap_
-
+!release/app-release.apk
 
 # Files for the ART/Dalvik VM
 *.dex
