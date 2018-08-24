@@ -13,4 +13,7 @@ constructor(val condition : String,
 
     constructor(info: WeatherInfo, icon: String)
             : this(info.condition, info.temperature, info.windSpeed, info.windDirection, info.lastUpdatedAt, info.location, icon)
+
+    constructor(info: WeatherInfo, timestamp : Long)
+            : this(info.condition, info.temperature, info.windSpeed, info.windDirection, Date(timestamp), info.location, info.icon)
 }
