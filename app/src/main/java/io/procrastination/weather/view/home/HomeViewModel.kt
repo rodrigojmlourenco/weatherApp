@@ -7,6 +7,8 @@ import android.databinding.ObservableField
 import io.procrastination.foundation.view.FoundationViewModel
 import io.procrastination.foundation.view.containIn
 import io.procrastination.weather.domain.UseCaseGetWeatherInfo
+import io.procrastination.weather.domain.error.CachedInformationIsTooOldException
+import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.WeatherInfo
 import io.procrastination.weather.domain.protocols.LocationHandler
 import io.procrastination.weather.domain.protocols.NetworkHandler
@@ -27,7 +29,10 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
     val windspeed = ObservableField<String>()
     val windDirection = ObservableField<String>()
     val lastUpdate = ObservableField<String>()
+
+    //State Observables
     val hasConnectivity = ObservableBoolean(true)
+    val hasFreshData = ObservableBoolean(true)
 
     fun setGetWeatherInfoUseCase(useCase: UseCaseGetWeatherInfo) {
         this.getWeatherInfoUseCase = useCase
@@ -72,6 +77,17 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
                 windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
                 lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(info.lastUpdatedAt))
                 this.location.set("${info.location.city}, ${info.location.country}")
+                hasFreshData.set(true)
+
+            }, Consumer { error ->
+
+                isLoading.postValue(false)
+
+                when (error) {
+                    is CachedInformationIsTooOldException -> hasFreshData.set(false)
+                    is NoInformationAvailableToPresentToTheUserException -> hasFreshData.set(false)
+                    else -> mNavigator.handleError(error)
+                }
             })
         })
     }

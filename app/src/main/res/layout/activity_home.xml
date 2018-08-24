@@ -182,11 +182,20 @@
             />
 
         <android.support.constraint.Group
+            android:id="@+id/group_weather"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="txt_location,txt_conditions,txt_temperature,txt_wind_speed,txt_wind_orientation,txt_last_update,iv_weather"
+            android:visibility="@{viewModel.hasFreshData ? View.VISIBLE : View.GONE}"
+            tools:visibility="visible"
+            />
+
+        <android.support.constraint.Group
             android:id="@+id/group_outdated"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:constraint_referenced_ids="iv_outdated,txt_outdated,btn_connect_now"
-            android:visibility="gone"
+            android:visibility="@{!viewModel.hasFreshData ? View.VISIBLE : View.GONE}"
             tools:visibility="gone"
             />
 

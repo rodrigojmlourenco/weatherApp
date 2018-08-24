@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import com.bumptech.glide.Glide
 import io.procrastination.foundation.view.FoundationActivity
+import io.procrastination.foundation.view.popups.ErrorPopup
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivityHomeBinding
@@ -32,6 +33,8 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
     @Inject lateinit var mViewModel: HomeViewModel
     @Inject lateinit var mNetworkHandler: NetworkHandler
 
+    private var mErrorPopup : ErrorPopup? = null
+
     override fun getViewModel(): HomeViewModel = mViewModel
 
     override fun getLayoutResId(): Int = R.layout.activity_home
@@ -42,7 +45,6 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         super.onCreate(savedInstanceState)
         getViewModel().weatherInfo.observe(this, Observer {
             it?.icon?.let { icon -> Glide.with(this).load(icon).into(getViewBinding().ivWeather) }
-            getViewBinding().groupOutdated.visibility   = View.GONE
         })
 
         getViewModel().isLoading.observe(this, Observer { loading ->
@@ -57,6 +59,14 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         })
     }
 
+    override fun onDestroy() {
+
+        if(mErrorPopup != null && mErrorPopup!!.isShowing)
+            mErrorPopup!!.dismiss()
+
+        super.onDestroy()
+    }
+
     private fun toggleRefreshVisibility(hasNetwork : Boolean){
         if(hasNetwork){
             getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_refresh))
@@ -67,11 +77,9 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
 
     override fun handleError(error: Throwable) {
 
-        if(error is NoInformationAvailableToPresentToTheUserException
-                || error is CachedInformationIsTooOldException){
-
-            getViewBinding().groupOutdated.visibility = View.VISIBLE
-            getViewBinding().fabRefresh.visibility = View.GONE
+        if(mErrorPopup == null || !mErrorPopup!!.isShowing) {
+            mErrorPopup = ErrorPopup(this).setError(error.localizedMessage)
+            mErrorPopup!!.show(getViewBinding().root)
         }
 
     }
