@@ -1,0 +1,9 @@
+test {
+    reports {
+        html.destination = "$rootDir/outputs/test/$name/${project.name}"
+    }
+
+
+        println("${name}")
+
+}
