@@ -1,6 +1,5 @@
 package io.procrastination.foundation.data
 
-
 import com.google.gson.GsonBuilder
 import io.procrastination.foundation.BuildConfig
 import io.procrastination.foundation.domain.errors.ServiceNotBuiltException
@@ -13,11 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-
-abstract class BaseServiceGenerator<API>(private val baseUrl : String) {
+abstract class BaseServiceGenerator<API>(private val baseUrl: String) {
 
     private var httpClient: OkHttpClient? = null
-
 
     private var mService: API? = null
 
@@ -33,7 +30,6 @@ abstract class BaseServiceGenerator<API>(private val baseUrl : String) {
                 .writeTimeout(NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
                 .connectTimeout(NETWORK_CONNECT_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
 
-
         for (i in interceptors)
             builder.addInterceptor(i)
 
@@ -46,7 +42,7 @@ abstract class BaseServiceGenerator<API>(private val baseUrl : String) {
         return builder.build()
     }
 
-    private fun prepareRetrofit(client : OkHttpClient): Retrofit {
+    private fun prepareRetrofit(client: OkHttpClient): Retrofit {
         val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create()
 
         return Retrofit.Builder()
@@ -64,7 +60,7 @@ abstract class BaseServiceGenerator<API>(private val baseUrl : String) {
     protected fun build() {
         httpClient = prepareOkHttpClient()
 
-        if(httpClient == null) throw ServiceNotBuiltException(this)
+        if (httpClient == null) throw ServiceNotBuiltException(this)
 
         mRetrofit = prepareRetrofit(httpClient!!)
     }
@@ -83,11 +79,9 @@ abstract class BaseServiceGenerator<API>(private val baseUrl : String) {
             mRetrofit!!.create(serviceClass)
     }
 
-
     companion object {
 
         private const val NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS = 60
-        private const val NETWORK_CONNECT_TIMEOUT_IN_SECONDS    = 15
+        private const val NETWORK_CONNECT_TIMEOUT_IN_SECONDS = 15
     }
 }
-

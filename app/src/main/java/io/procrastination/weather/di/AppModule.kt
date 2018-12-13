@@ -1,8 +1,8 @@
 package io.procrastination.weather.di
 
 import android.app.Application
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import io.procrastination.foundation.domain.schedueler.Scheduler
@@ -19,13 +19,14 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-    @Provides @Singleton
-    fun provideContext(application : Application) : Context {
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context {
         return application.applicationContext
     }
 
     @Provides
-    fun provideScheduler() : Scheduler {
+    fun provideScheduler(): Scheduler {
         return object : Scheduler {
             override fun getSubscribeOn(): io.reactivex.Scheduler = Schedulers.io()
 
@@ -38,24 +39,25 @@ class AppModule {
     }
 
     @Provides
-    fun provideTimberTree() : Timber.Tree {
+    fun provideTimberTree(): Timber.Tree {
         return Timber.DebugTree()
     }
 
     @Provides
-    fun provideLocationHandler(context : Context) : LocationHandler {
+    fun provideLocationHandler(context: Context): LocationHandler {
         return FusedLocationHandler(context)
     }
 
     @Provides
-    fun provideNetworkHandler(context: Context) : NetworkHandler {
+    fun provideNetworkHandler(context: Context): NetworkHandler {
         return ConnectivityManagerNetworkHandler(context)
     }
 
-    @Provides @Singleton
-    fun provideWeatherDatabase(context: Context) : WeatherDatabase {
+    @Provides
+    @Singleton
+    fun provideWeatherDatabase(context: Context): WeatherDatabase {
         return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather-db")
-                .fallbackToDestructiveMigration()
-                .build()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

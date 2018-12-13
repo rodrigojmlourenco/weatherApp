@@ -11,8 +11,10 @@ import javax.inject.Inject
 
 class WeatherApplication : Application(), HasActivityInjector {
 
-    @Inject lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
-    @Inject lateinit var mTimberTree : Timber.Tree
+    @Inject
+    lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
+    @Inject
+    lateinit var mTimberTree: Timber.Tree
 
     override fun onCreate() {
         super.onCreate()
@@ -23,7 +25,7 @@ class WeatherApplication : Application(), HasActivityInjector {
 
     override fun activityInjector(): AndroidInjector<Activity> = mActivityInjector
 
-    private fun inject(){
+    private fun inject() {
         DaggerAppComponent.builder().application(this).build().inject(this)
     }
 }

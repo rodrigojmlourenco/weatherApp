@@ -7,10 +7,10 @@ import io.reactivex.subjects.PublishSubject
 
 class MockNetworkHandler : NetworkHandler {
 
-    private var hasNetwork : Boolean = true
-    private val mPublisher : PublishSubject<Boolean> = PublishSubject.create()
+    private var hasNetwork: Boolean = true
+    private val mPublisher: PublishSubject<Boolean> = PublishSubject.create()
 
-    fun setNetworkState(connected : Boolean) : MockNetworkHandler{
+    fun setNetworkState(connected: Boolean): MockNetworkHandler {
         hasNetwork = connected
         mPublisher.onNext(hasNetwork)
         return this
@@ -23,5 +23,4 @@ class MockNetworkHandler : NetworkHandler {
     override fun hasNetworkConnectivity(): Boolean {
         return hasNetwork
     }
-
 }

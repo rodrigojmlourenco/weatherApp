@@ -1,0 +1,136 @@
+import org.gradle.internal.logging.text.StyledTextOutput
+import org.gradle.internal.logging.text.StyledTextOutputFactory
+import org.gradle.internal.logging.text.StyledTextOutput.Style
+
+def getVersionName = { getVersionProps()['appVersionName'] }
+
+def getVersionCode = { getVersionProps()['appVersionCode'].toInteger() }
+
+def out = services.get(StyledTextOutputFactory).create("an-ouput")
+
+def getVersionProps() {
+    def versionPropsFile = file("$rootDir/App/gradle.properties")
+    if (!versionPropsFile.exists()) {
+        versionPropsFile.createNewFile()
+    }
+    def versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionPropsFile))
+    return versionProps
+}
+
+def getVersionNamePatch = { (getVersionName() =~ /\d+/)[2].toInteger() }
+
+def getVersionNameMinor = { (getVersionName() =~ /\d+/)[1].toInteger() }
+
+def getVersionNameMajor = { (getVersionName() =~ /\d+/)[0].toInteger() }
+
+def getBuildNumber = { getVersionProps()['appBuildNumber'].toInteger() }
+
+private Integer computeVersionCode(major, minor, patch, build) {
+    return major * 100000 + minor * 1000 + patch * 100 + build
+}
+
+private void createTag(versionName, suffix){
+    Process createTag = ['git', 'tag', "v${versionName}-${suffix}".toString()].execute(null, project.rootDir)
+    createTag.waitForProcessOutput(System.out, System.err)
+
+    Process pushTag = ['git', 'push', "--tags"].execute(null,  project.rootDir)
+    pushTag.waitForProcessOutput(System.out, System.err)
+}
+
+private void commitAndSetTag(versionName) {
+    Process addChanges = ['git', 'add', 'App/gradle.properties'].execute(null, project.rootDir)
+    addChanges.waitForProcessOutput(System.out, System.err)
+
+    Process createCommit = ['git', 'commit', "-m [Release] ${versionName}"].execute(null,  project.rootDir)
+    createCommit.waitForProcessOutput(System.out, System.err)
+
+    Process createTag = ['git', 'tag', "v${versionName}".toString()].execute(null, project.rootDir)
+    createTag.waitForProcessOutput(System.out, System.err)
+}
+
+private void commit(code) {
+    Process addChanges = ['git', 'add', 'App/gradle.properties'].execute(null, project.rootDir)
+    addChanges.waitForProcessOutput(System.out, System.err)
+
+    Process createCommit = ['git', 'commit', "-m [Version] Bumped to ${code}"].execute(null,  project.rootDir)
+    createCommit.waitForProcessOutput(System.out, System.err)
+}
+
+private void save(major, minor, patch, build) {
+    save("${major}.${minor}.${patch}".toString(), computeVersionCode(major, minor, patch, build).toString(), build.toString())
+}
+
+private void save(versionName, versionCode, build) {
+    def versionProps = getVersionProps()
+    versionProps['appVersionName'] = versionName
+    versionProps['appVersionCode'] = versionCode
+    versionProps['appBuildNumber'] = build
+    versionProps.store(file('App/gradle.properties').newWriter(), null)
+}
+
+
+
+task bumperInit() {
+    group = 'bumper'
+    doLast {
+        def versionName = project.hasProperty('bumperVersionName') ? bumperVersionName : '1.0.0'
+        def buildNumber = project.hasProperty('bumperBuildNumber') ? bumperBuildNumber : '0'
+        save(versionName, buildNumber, buildNumber)
+    }
+}
+
+task bumperVersionPatch () {
+    group = 'bumper'
+    doLast {
+        save(getVersionNameMajor(), getVersionNameMinor(), getVersionNamePatch() + 1, 0)
+        commit(computeVersionCode(getVersionNameMajor(),getVersionNameMinor(), getVersionNamePatch(), getBuildNumber()))
+    }
+}
+
+task bumperVersionMinor () {
+    group = 'bumper'
+    doLast {
+        save(getVersionNameMajor(), getVersionNameMinor() + 1, 0, 0)
+        commitAndSetTag(getVersionName())
+    }
+}
+
+task bumperVersionMajor () {
+    group = 'bumper'
+    doLast {
+        save(getVersionNameMajor() + 1, 0, 0, 0)
+        commitAndSetTag(getVersionName())
+    }
+}
+
+task bump () {
+    group = 'bumper'
+    doLast {
+        save(getVersionNameMajor(),getVersionNameMinor(), getVersionNamePatch(), getBuildNumber()+1)
+        commit(computeVersionCode(getVersionNameMajor(),getVersionNameMinor(), getVersionNamePatch(), getBuildNumber()))
+    }
+}
+
+task bumperLog(){
+    group = 'bumper'
+    doLast {
+        println "\n\n==========================================\n=========================================="
+        println "Version ${getVersionName()}\nCode ${getVersionCode()}\nCurrent Build ${getBuildNumber()}"
+        println "==========================================\n==========================================\n\n"
+    }
+}
+
+task betaIt() {
+    group = 'bumper'
+    doLast {
+        createTag(getVersionName(), "Beta")
+    }
+}
+
+task releaseIt() {
+    group = 'bumper'
+    doLast {
+        createTag(getVersionName(), "Release")
+    }
+}

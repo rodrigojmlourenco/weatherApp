@@ -1,27 +1,27 @@
 package io.procrastination.foundation.view
 
-import android.arch.lifecycle.Observer
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import dagger.android.AndroidInjection
 import timber.log.Timber
 
 abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel<*>> : AppCompatActivity(), FoundationNavigator {
 
-    private lateinit var mViewBinding : VB
+    private lateinit var mViewBinding: VB
 
-    abstract fun getViewModel() : VM?
+    abstract fun getViewModel(): VM?
 
-    fun getViewBinding() : VB = mViewBinding
+    fun getViewBinding(): VB = mViewBinding
 
-    @LayoutRes abstract fun getLayoutResId() : Int
+    @LayoutRes abstract fun getLayoutResId(): Int
 
-    abstract fun getBindingVariableId() : Int?
+    abstract fun getBindingVariableId(): Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -62,5 +62,4 @@ abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel
     override fun handleError(error: Throwable) {
         Timber.w(error)
     }
-
 }

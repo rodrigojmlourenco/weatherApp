@@ -9,13 +9,13 @@ import io.reactivex.Single
 
 class MockLocalWeatherRepository : LocalWeatherRepository {
 
-    private val cache : MutableList<CachedWeatherInfo> = mutableListOf()
-    private val mapper : CachedWeatherMapper = CachedWeatherMapper()
+    private val cache: MutableList<CachedWeatherInfo> = mutableListOf()
+    private val mapper: CachedWeatherMapper = CachedWeatherMapper()
 
-    fun syncInsert(info: WeatherInfo){
+    fun syncInsert(info: WeatherInfo) {
         val item = mapper.fromModel(info)
 
-        if(cache.any { it.id == item.id }){
+        if (cache.any { it.id == item.id }) {
             cache.removeIf { it.id == item.id }
         }
 
@@ -28,7 +28,7 @@ class MockLocalWeatherRepository : LocalWeatherRepository {
 
         return Single.fromCallable {
 
-            if(cache.any { it.id == item.id }){
+            if (cache.any { it.id == item.id }) {
                 cache.removeIf { it.id == item.id }
             }
 
@@ -44,12 +44,11 @@ class MockLocalWeatherRepository : LocalWeatherRepository {
 
             val items = cache.filter { it.latitude == lat && it.longitude == lng }
 
-            if(items.isEmpty())
+            if (items.isEmpty())
                 throw NoInformationAvailableToPresentToTheUserException()
             else
                 items[0]
         }.map { mapper.toModel(it) }
-
     }
 
     override fun getWeatherInfo(city: String, zipCode: String?, country: String?): Single<WeatherInfo> {
@@ -58,12 +57,11 @@ class MockLocalWeatherRepository : LocalWeatherRepository {
 
             val items = cache.filter { it.city == city }
 
-            if(items.isEmpty())
+            if (items.isEmpty())
                 throw NoInformationAvailableToPresentToTheUserException()
             else
                 items[0]
         }.map { mapper.toModel(it) }
-
     }
 
     override fun delete(info: WeatherInfo): Single<Boolean> {

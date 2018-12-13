@@ -25,53 +25,53 @@ import java.util.concurrent.TimeUnit
  * than 24 hours old, then I want to know the data is too old.
  */
 class UseCaseGetWeatherInfo
-constructor(scheduler: Scheduler,
-            private val repository: WeatherRepository,
-            private val networkHandler: NetworkHandler,
-            private val localRepository: LocalWeatherRepository)
+constructor(
+    scheduler: Scheduler,
+    private val repository: WeatherRepository,
+    private val networkHandler: NetworkHandler,
+    private val localRepository: LocalWeatherRepository
+)
 
-    : ObservableUseCase<WeatherInfo, LocationInfo>(scheduler){
-
+    : ObservableUseCase<WeatherInfo, LocationInfo>(scheduler) {
 
     override fun buildUseCaseObservable(params: LocationInfo): Observable<WeatherInfo> {
-        return if(networkHandler.hasNetworkConnectivity()) {
+        return if (networkHandler.hasNetworkConnectivity()) {
             loadFromNetwork(params)
         } else {
             loadFromCache(params)
         }
     }
 
-    private fun tooOld(info : WeatherInfo) : Boolean {
+    private fun tooOld(info: WeatherInfo): Boolean {
         val expires = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
         return info.lastUpdatedAt.time < expires
     }
 
-    private fun loadFromNetwork(params : LocationInfo) : Observable<WeatherInfo>{
+    private fun loadFromNetwork(params: LocationInfo): Observable<WeatherInfo> {
         return repository.getWeatherInfo(params.latitude, params.longitude)
-                .map { weatherInfo ->
-                    try {
-                        localRepository.cache(weatherInfo).blockingGet()
-                    }catch (e : Exception){
-                        Timber.e(e)
-                        throw e
-                    }
+            .map { weatherInfo ->
+                try {
+                    localRepository.cache(weatherInfo).blockingGet()
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    throw e
+                }
 
-                    weatherInfo
-                }.toObservable()
+                weatherInfo
+            }.toObservable()
     }
 
-    private fun loadFromCache(params : LocationInfo) : Observable<WeatherInfo>{
+    private fun loadFromCache(params: LocationInfo): Observable<WeatherInfo> {
         return when {
             params.city != null -> localRepository.getWeatherInfo(params.city)
             else -> localRepository.getWeatherInfo(params.latitude, params.longitude)
         }.map { weatherInfo ->
 
-            if(tooOld(weatherInfo)) {
+            if (tooOld(weatherInfo)) {
                 localRepository.delete(weatherInfo)
                 throw CachedInformationIsTooOldException()
-            }else
+            } else
                 weatherInfo
         }.toObservable()
     }
-
 }

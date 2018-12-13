@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="txt_error_message" type="id">Oops! Something went wrong.</item>
+    <item name="txt_error_message" type="id"/>
 </resources>

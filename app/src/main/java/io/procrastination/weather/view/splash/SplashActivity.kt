@@ -12,11 +12,11 @@ import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 import javax.inject.Inject
 
+class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel>(), SplashNavigator,
+    EasyPermissions.PermissionCallbacks {
 
-class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel>(), SplashNavigator,  EasyPermissions.PermissionCallbacks {
-
-
-    @Inject lateinit var mViewModel : SplashViewModel
+    @Inject
+    lateinit var mViewModel: SplashViewModel
 
     override fun getViewModel(): SplashViewModel? = mViewModel
 
@@ -35,14 +35,18 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
     }
 
     override fun requestLocationPermissions() {
-        if(EasyPermissions.hasPermissions(this, *this.locationPermissions())) {
+        if (EasyPermissions.hasPermissions(this, *this.locationPermissions())) {
             Timber.i("User has granted access to location.")
             goToHome()
-        }else{
-            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale), RC_LOCATION, *this.locationPermissions())
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.location_rationale),
+                RC_LOCATION,
+                *this.locationPermissions()
+            )
         }
     }
-
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         getViewBinding().btnRequestPermissions.visibility = View.VISIBLE
@@ -51,5 +55,4 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         goToHome()
     }
-
 }

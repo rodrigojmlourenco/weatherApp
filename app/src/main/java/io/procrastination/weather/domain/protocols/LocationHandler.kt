@@ -7,5 +7,5 @@ import io.reactivex.functions.Consumer
 interface LocationHandler {
 
     @Throws(LocationRequestNotPermitedException::class)
-    fun getUsersCurrentLocation(listener : Consumer<LocationInfo>)
+    fun getUsersCurrentLocation(listener: Consumer<LocationInfo>)
 }

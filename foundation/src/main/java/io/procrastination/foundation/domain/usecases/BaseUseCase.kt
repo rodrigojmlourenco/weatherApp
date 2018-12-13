@@ -1,7 +1,5 @@
 package io.procrastination.foundation.domain.usecases
 
-
-import io.procrastination.foundation.domain.managers.AccountManagerProtocol
 import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -25,13 +23,12 @@ import io.reactivex.disposables.Disposable
 abstract class BaseUseCase
 constructor(protected val scheduler: Scheduler) {
 
-
     /**
      * Dispose from current [CompositeDisposable].
      *
      * @param disposable self-explanatory
      */
     fun addDisposable(disposable: Disposable) {
-        //Ignore
+        // Ignore
     }
 }

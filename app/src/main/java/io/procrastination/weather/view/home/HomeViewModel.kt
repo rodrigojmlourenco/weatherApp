@@ -1,9 +1,9 @@
 package io.procrastination.weather.view.home
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import io.procrastination.foundation.view.FoundationViewModel
 import io.procrastination.foundation.view.containIn
 import io.procrastination.weather.domain.UseCaseGetWeatherInfo
@@ -15,7 +15,7 @@ import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
 import java.text.SimpleDateFormat
 
-class HomeViewModel : FoundationViewModel<HomeNavigator>(){
+class HomeViewModel : FoundationViewModel<HomeNavigator>() {
 
     private lateinit var getWeatherInfoUseCase: UseCaseGetWeatherInfo
     private lateinit var locationHandler: LocationHandler
@@ -30,7 +30,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
     val windDirection = ObservableField<String>()
     val lastUpdate = ObservableField<String>()
 
-    //State Observables
+    // State Observables
     val hasConnectivity = ObservableBoolean(true)
     val hasFreshData = ObservableBoolean(true)
 
@@ -38,11 +38,11 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
         this.getWeatherInfoUseCase = useCase
     }
 
-    fun setLocationHandler(handler: LocationHandler){
+    fun setLocationHandler(handler: LocationHandler) {
         this.locationHandler = handler
     }
 
-    fun setNetworkHandler(handler: NetworkHandler){
+    fun setNetworkHandler(handler: NetworkHandler) {
         this.networkHandler = handler
     }
 
@@ -54,21 +54,21 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
         networkHandler.hasNetworkConnectivity(Consumer { hasConnectivity.set(it) }).containIn(usecaseContainer)
     }
 
-    fun onPressedRefeshWeather(){
+    fun onPressedRefeshWeather() {
 
-        if(hasConnectivity.get())
+        if (hasConnectivity.get())
             loadWeatherInfo()
         else
             mNavigator.goToWifiSettings()
     }
 
-    fun onPressedConnectWifi(){
+    fun onPressedConnectWifi() {
         mNavigator.goToWifiSettings()
     }
 
-    private fun loadWeatherInfo(){
+    private fun loadWeatherInfo() {
         locationHandler.getUsersCurrentLocation(Consumer { location ->
-            executeUseCaseInForeground(getWeatherInfoUseCase, location, Consumer {info ->
+            executeUseCaseInForeground(getWeatherInfoUseCase, location, Consumer { info ->
                 weatherInfo.postValue(info)
 
                 condition.set(info.condition)
@@ -78,7 +78,6 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>(){
                 lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(info.lastUpdatedAt))
                 this.location.set("${info.location.city}, ${info.location.country}")
                 hasFreshData.set(true)
-
             }, Consumer { error ->
 
                 isLoading.postValue(false)

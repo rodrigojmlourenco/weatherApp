@@ -1,23 +1,23 @@
 package io.procrastination.foundation.view
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.procrastination.foundation.domain.usecases.UseCaseExecutor
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class FoundationViewModel<N : FoundationNavigator> : ViewModel(), DefaultLifecycleObserver, UseCaseExecutor {
 
     lateinit var mNavigator: N
-    private var mCompositeDisposable : CompositeDisposable? = null
+    private var mCompositeDisposable: CompositeDisposable? = null
 
-    override val navigator : FoundationNavigator
+    override val navigator: FoundationNavigator
         get() = mNavigator
 
     override val usecaseContainer: CompositeDisposable
         get() {
-            if(mCompositeDisposable == null || mCompositeDisposable!!.isDisposed)
+            if (mCompositeDisposable == null || mCompositeDisposable!!.isDisposed)
                 mCompositeDisposable = CompositeDisposable()
 
             return mCompositeDisposable!!
@@ -27,16 +27,15 @@ abstract class FoundationViewModel<N : FoundationNavigator> : ViewModel(), Defau
     override val isLoading: MutableLiveData<Boolean>
         get() = _isLoading
 
-
     override fun onCreate(owner: LifecycleOwner) {
         isLoading.postValue(false)
     }
 
-    fun setLifeCycleOwner(owner : LifecycleOwner) {
+    fun setLifeCycleOwner(owner: LifecycleOwner) {
         owner.lifecycle.addObserver(this)
     }
 
-    fun setNavigator(navigator : N){
+    @Suppress("unused") fun setNavigator(navigator: N) {
         mNavigator = navigator
     }
 }
