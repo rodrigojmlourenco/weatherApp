@@ -2,7 +2,7 @@ findbugs {
     ignoreFailures true
     effort "max"
     reportLevel "high"
-    excludeBugsFilter = file("$rootDir/team/rules-findbugs.xml")
+    //excludeBugsFilter = file("$rootDir/team/rules-findbugs.xml")
 }
 
 tasks.withType(FindBugs) {

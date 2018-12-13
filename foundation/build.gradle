@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+
 android {
     compileSdkVersion 28
 
@@ -62,7 +63,4 @@ dependencies {
     testImplementation TestingDependencies.junit4
     androidTestImplementation TestingDependencies.testRunner
     androidTestImplementation TestingDependencies.espresso
-}
-repositories {
-    mavenCentral()
 }
