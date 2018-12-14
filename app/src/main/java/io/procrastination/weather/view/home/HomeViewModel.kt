@@ -14,6 +14,7 @@ import io.procrastination.weather.domain.protocols.LocationHandler
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 class HomeViewModel : FoundationViewModel<HomeNavigator>() {
 
@@ -75,7 +76,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
                 temperature.set("${info.temperature}ºc")
                 windspeed.set("${info.windSpeed}mph")
                 windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
-                lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(info.lastUpdatedAt))
+                lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK).format(info.lastUpdatedAt))
                 this.location.set("${info.location.city}, ${info.location.country}")
                 hasFreshData.set(true)
             }, Consumer { error ->

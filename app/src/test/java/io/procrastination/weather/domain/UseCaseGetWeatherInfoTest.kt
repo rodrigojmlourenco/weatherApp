@@ -43,8 +43,6 @@ class UseCaseGetWeatherInfoTest {
     @Test
     fun testOffline_loadInfoWithoutCachedData() {
 
-        val tawarano = mockCoordsWeatherInfo()
-
         val networkHandler = MockNetworkHandler().setNetworkState(false)
         val localWeatherRepository = MockLocalWeatherRepository()
 

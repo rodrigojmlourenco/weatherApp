@@ -30,8 +30,9 @@ android {
 
 
     dataBinding { enabled = true }
-
 }
+
+apply from : "$rootDir/team/lint.gradle"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

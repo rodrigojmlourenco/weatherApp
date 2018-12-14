@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">@color/violet</color>
     <color name="colorPrimaryDark">@color/violet_dark</color>
     <color name="colorAccent">@color/yellowish</color>
 
     <color name="red">#ed1d24</color>
-    <color name="vermilion">#ed1d24</color>
-    <color name="black">#000</color>
+    <color name="vermilion" tools:ignore="UnusedResources">#ed1d24</color>
+    <color name="black" tools:ignore="UnusedResources">#000</color>
     <color name="white">#EFEFEF</color>
     <color name="grey">#504a4a</color>
     <color name="grey_light">#9e9696</color>
-    <color name="grey_lighter">#b6b1b1</color>
-    <color name="blue">#518cca</color>
-    <color name="orange">#f78f3f</color>
-    <color name="background">@color/white</color>
-    <color name="green">#20c218</color>
+    <color name="grey_lighter" tools:ignore="UnusedResources">#b6b1b1</color>
+    <color name="blue" tools:ignore="UnusedResources">#518cca</color>
+    <color name="orange" tools:ignore="UnusedResources">#f78f3f</color>
+    <color name="background" tools:ignore="UnusedResources">@color/white</color>
+    <color name="green" tools:ignore="UnusedResources">#20c218</color>
     <color name="yellowish">#efdd6f</color>
 
-    <color name="violet">#5F4B8B</color>
-    <color name="violet_darkX">#281553</color>
-    <color name="violet_dark">#432d71</color>
-    <color name="violet_light">#8271a7</color>
-    <color name="violet_lighter">#afa3c8</color>
+    <color name="violet" tools:ignore="UnusedResources">#5F4B8B</color>
+    <color name="violet_darkX" tools:ignore="UnusedResources">#281553</color>
+    <color name="violet_dark" tools:ignore="UnusedResources">#432d71</color>
+    <color name="violet_light" tools:ignore="UnusedResources">#8271a7</color>
+    <color name="violet_lighter" tools:ignore="UnusedResources">#afa3c8</color>
 
 </resources>

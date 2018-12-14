@@ -15,4 +15,9 @@
     <string name="temperature">Temperature:</string>
     <string name="wind_speed">Wind speed :</string>
     <string name="wind_direction">Wind direction:</string>
+    <string name="weather_representation">Weather representation</string>
+    <string name="no_network">No network</string>
+    <string name="cloud">Cloud</string>
+    <string name="sun">Sun</string>
+    <string name="location_waypoint">Location waypoint</string>
 </resources>

@@ -1,9 +1,8 @@
 android {
     lintOptions{
-        abortOnError false
-        xmlReport false
+        abortOnError true
+        xmlReport true
         htmlReport true
-        //lintConfig file("$configDir/lint.xml")
-        htmlOutput file("$rootDir/outputs/lint/lint-result.html")
+        lintConfig file("$rootDir/team/lint.xml")
     }
 }

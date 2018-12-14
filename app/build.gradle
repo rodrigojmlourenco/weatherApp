@@ -34,6 +34,8 @@ android {
     }
 }
 
+apply from : "$rootDir/team/lint.gradle"
+
 configurations.all {
 
     resolutionStrategy {

@@ -1,5 +1,3 @@
-import com.android.builder.model.AndroidLibrary
-
 buildscript {
 
     repositories {
@@ -17,8 +15,8 @@ buildscript {
 
 
 plugins {
-    java
-    jacoco
+    id "java"
+    id "jacoco"
     id("com.github.ben-manes.versions").version("0.20.0")
     id("io.gitlab.arturbosch.detekt").version("1.0.0-RC11")
 }
@@ -47,6 +45,6 @@ allprojects {
 subprojects{
 }
 
-tasks.register("cleanBuild", Delete::class){
+clean {
     delete(rootProject.buildDir)
 }
