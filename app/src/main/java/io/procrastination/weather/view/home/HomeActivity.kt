@@ -1,39 +1,46 @@
 package io.procrastination.weather.view.home
 
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
-import android.databinding.Observable
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.content.ContextCompat
+
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.foundation.view.popups.ErrorPopup
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivityHomeBinding
-import io.procrastination.weather.domain.error.CachedInformationIsTooOldException
-import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
-import io.procrastination.weather.domain.model.*
+import io.procrastination.weather.domain.model.EAST
+import io.procrastination.weather.domain.model.NORTH
+import io.procrastination.weather.domain.model.NORTH_EAST
+import io.procrastination.weather.domain.model.NORTH_WEST
+import io.procrastination.weather.domain.model.SOUTH
+import io.procrastination.weather.domain.model.SOUTH_EAST
+import io.procrastination.weather.domain.model.SOUTH_WEST
+import io.procrastination.weather.domain.model.WEST
+
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
-import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), HomeNavigator{
+class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), HomeNavigator {
 
     companion object {
-        fun getStartIntent(context : Context) : Intent {
+        fun getStartIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
         }
     }
 
-    @Inject lateinit var mViewModel: HomeViewModel
-    @Inject lateinit var mNetworkHandler: NetworkHandler
+    @Inject
+    lateinit var mViewModel: HomeViewModel
+    @Inject
+    lateinit var mNetworkHandler: NetworkHandler
 
-    private var mErrorPopup : ErrorPopup? = null
+    private var mErrorPopup: ErrorPopup? = null
 
     override fun getViewModel(): HomeViewModel = mViewModel
 
@@ -48,53 +55,52 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         })
 
         getViewModel().isLoading.observe(this, Observer { loading ->
-            getViewBinding().progressIndicator.visibility = if(loading == true) View.VISIBLE else View.GONE
+            getViewBinding().progressIndicator.visibility = if (loading == true) View.VISIBLE else View.GONE
         })
 
-        //Adjust according to the network state
+        // Adjust according to the network state
         toggleRefreshVisibility(mNetworkHandler.hasNetworkConnectivity())
-        mNetworkHandler.hasNetworkConnectivity(Consumer {hasNetwork ->
-            if(hasNetwork) getViewModel().onPressedRefeshWeather()
+        mNetworkHandler.hasNetworkConnectivity(Consumer { hasNetwork ->
+            if (hasNetwork) getViewModel().onPressedRefeshWeather()
             toggleRefreshVisibility(hasNetwork)
         })
     }
 
     override fun onDestroy() {
 
-        if(mErrorPopup != null && mErrorPopup!!.isShowing)
+        if (mErrorPopup != null && mErrorPopup!!.isShowing)
             mErrorPopup!!.dismiss()
 
         super.onDestroy()
     }
 
-    private fun toggleRefreshVisibility(hasNetwork : Boolean){
-        if(hasNetwork){
+    private fun toggleRefreshVisibility(hasNetwork: Boolean) {
+        if (hasNetwork) {
             getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_refresh))
-        }else{
-            getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_no_network   ))
+        } else {
+            getViewBinding().fabRefresh.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_no_network))
         }
     }
 
     override fun handleError(error: Throwable) {
 
-        if(mErrorPopup == null || !mErrorPopup!!.isShowing) {
+        if (mErrorPopup == null || !mErrorPopup!!.isShowing) {
             mErrorPopup = ErrorPopup(this).setError(error.localizedMessage)
             mErrorPopup!!.show(getViewBinding().root)
         }
-
     }
 
     override fun getDirectionAsString(direction: Int): String {
-        return when(direction){
-            NORTH       -> getString(R.string.north)
-            NORTH_EAST  -> getString(R.string.north_east)
-            EAST        -> getString(R.string.east)
-            SOUTH_EAST  -> getString(R.string.south_east)
-            SOUTH       -> getString(R.string.south)
-            SOUTH_WEST  -> getString(R.string.south_west)
-            WEST        -> getString(R.string.west)
-            NORTH_WEST  -> getString(R.string.north_west)
-            else        -> getString(R.string.unknown)
+        return when (direction) {
+            NORTH -> getString(R.string.north)
+            NORTH_EAST -> getString(R.string.north_east)
+            EAST -> getString(R.string.east)
+            SOUTH_EAST -> getString(R.string.south_east)
+            SOUTH -> getString(R.string.south)
+            SOUTH_WEST -> getString(R.string.south_west)
+            WEST -> getString(R.string.west)
+            NORTH_WEST -> getString(R.string.north_west)
+            else -> getString(R.string.unknown)
         }
     }
 

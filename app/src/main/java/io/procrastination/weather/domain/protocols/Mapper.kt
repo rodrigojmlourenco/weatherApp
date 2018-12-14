@@ -1,8 +1,8 @@
 package io.procrastination.weather.domain.protocols
 
-interface Mapper<M,C> {
+interface Mapper<M, C> {
 
-    fun toModel(cachedItem : C) : M
+    fun toModel(cachedItem: C): M
 
-    fun fromModel(model: M) : C
+    fun fromModel(model: M): C
 }

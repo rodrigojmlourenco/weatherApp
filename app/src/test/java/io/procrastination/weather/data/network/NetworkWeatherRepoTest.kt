@@ -3,8 +3,7 @@ package io.procrastination.weather.data.network
 import io.procrastination.weather.domain.model.LocationInfo
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
-
+import java.util.Date
 
 class NetworkWeatherRepoTest {
 
@@ -13,7 +12,7 @@ class NetworkWeatherRepoTest {
     private val iconsUrl = "http://openweathermap.org/img/w/"
 
     @Test
-    fun testRepo_fetchByCoordinates(){
+    fun testRepo_fetchByCoordinates() {
 
         val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
@@ -30,7 +29,7 @@ class NetworkWeatherRepoTest {
     }
 
     @Test
-    fun testRepo_fetchByCity(){
+    fun testRepo_fetchByCity() {
 
         val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
@@ -48,7 +47,7 @@ class NetworkWeatherRepoTest {
     }
 
     @Test
-    fun testRepo_fetchByZipCode(){
+    fun testRepo_fetchByZipCode() {
         val repo = NetworkWeatherRepo(baseUrl, apiKey, iconsUrl)
 
         val testObs = repo.getWeatherInfo("", zipCode = "9404").test()
@@ -62,6 +61,5 @@ class NetworkWeatherRepoTest {
         Assert.assertEquals(7, value.windDirection)
         Assert.assertEquals(Date(1519061700L * 1000), value.lastUpdatedAt)
         Assert.assertEquals(LocationInfo(37.39, -122.09, "Mountain View", "US"), value.location)
-
     }
 }

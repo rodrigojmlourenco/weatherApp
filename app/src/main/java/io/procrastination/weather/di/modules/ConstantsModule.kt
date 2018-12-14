@@ -9,19 +9,22 @@ import javax.inject.Named
 @Module
 class ConstantsModule {
 
-    @Provides @Named("weather-endpoint")
-    fun provideWeatherEndpoint() : String {
-        //return "https://samples.openweathermap.org/data/2.5/"
+    @Provides
+    @Named("weather-endpoint")
+    fun provideWeatherEndpoint(): String {
+        // return "https://samples.openweathermap.org/data/2.5/"
         return "https://api.openweathermap.org/data/2.5/"
     }
 
-    @Provides @Named("weather-key")
-    fun provideWeatherApiKey(context : Context) : String {
+    @Provides
+    @Named("weather-key")
+    fun provideWeatherApiKey(context: Context): String {
         return context.getString(R.string.weather_api)
     }
 
-    @Provides @Named("weather-icons")
-    fun provideWeatherIconsEndpoint() : String {
+    @Provides
+    @Named("weather-icons")
+    fun provideWeatherIconsEndpoint(): String {
         return "http://openweathermap.org/img/w/"
     }
 }

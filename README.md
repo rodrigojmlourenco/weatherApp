@@ -17,8 +17,8 @@ As a user, when I open the app I should see the weather for my current location,
 The app uses OpenWeatherMap.org.
 
 ## Configure to Test
-For security reasons the Marvel Developers API requires a public-private key pair. This pair must be used to create an hash that must be sent in each request, as the platform imposes a limit on the 
-number of requests per-day. For the same reasons, the project is defined in such a way that it does not contain this keys. To enable the compilation of the project please add an additional string 
+For security reasons the Marvel Developers API requires a public-private key pair. This pair must be used to create an hash that must be sent in each request, as the platform imposes a limit on the
+number of requests per-day. For the same reasons, the project is defined in such a way that it does not contain this keys. To enable the compilation of the project please add an additional string
 resources file with the following information:
 
 ```xml

@@ -11,9 +11,8 @@ import io.procrastination.weather.view.splash.SplashModule
 abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [SplashModule::class])
-    abstract fun provideSplashActivity() : SplashActivity
+    abstract fun provideSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [HomeModule::class])
-    abstract fun bindHomeActivity() : HomeActivity
-
+    abstract fun bindHomeActivity(): HomeActivity
 }

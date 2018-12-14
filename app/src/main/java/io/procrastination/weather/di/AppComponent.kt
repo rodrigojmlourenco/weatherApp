@@ -11,14 +11,16 @@ import io.procrastination.weather.view.WeatherApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    AndroidInjectionModule::class,
-    AppModule::class,
-    ConstantsModule::class,
-    RepositoriesModule::class,
-    UseCasesModule::class,
-    ActivityBuilder::class
-])
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        AppModule::class,
+        ConstantsModule::class,
+        RepositoriesModule::class,
+        UseCasesModule::class,
+        ActivityBuilder::class
+    ]
+)
 interface AppComponent {
 
     @Component.Builder

@@ -1,22 +1,23 @@
 package io.procrastination.weather.view.splash
 
-import android.arch.lifecycle.LifecycleOwner
+import android.annotation.SuppressLint
+import androidx.lifecycle.LifecycleOwner
 import io.procrastination.foundation.view.FoundationViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
+class SplashViewModel : FoundationViewModel<SplashNavigator>() {
 
-class SplashViewModel : FoundationViewModel<SplashNavigator>(){
-
+    @SuppressLint("CheckResult")
     override fun onStart(owner: LifecycleOwner) {
         Observable.just(true)
-                .delay(3, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { mNavigator.requestLocationPermissions() }
+            .delay(3, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { mNavigator.requestLocationPermissions() }
     }
 
-    fun onPressedRequestPermissions(){
+    fun onPressedRequestPermissions() {
         mNavigator.requestLocationPermissions()
     }
 }

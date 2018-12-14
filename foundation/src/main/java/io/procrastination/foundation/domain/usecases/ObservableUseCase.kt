@@ -1,10 +1,7 @@
 package io.procrastination.foundation.domain.usecases
 
-import io.procrastination.foundation.domain.managers.AccountManagerProtocol
 import io.procrastination.foundation.domain.schedueler.Scheduler
-import io.procrastination.foundation.view.containIn
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
@@ -50,11 +47,13 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
         return buildUseCaseObservable(params)
     }
 
-    fun execute(params: P,
-                filter: Predicate<T>? = Predicate { true },
-                observer: Consumer<T>,
-                onError: Consumer<Throwable>,
-                onComplete: Action) : Disposable {
+    fun execute(
+        params: P,
+        filter: Predicate<T>? = Predicate { true },
+        observer: Consumer<T>,
+        onError: Consumer<Throwable>,
+        onComplete: Action
+    ): Disposable {
 
         return buildUseCaseObservable(params)
                 .filter(filter)
@@ -66,7 +65,6 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
     protected fun buildValidationError(params: P): Observable<*> {
         return Observable.error<Any>(Exception("Something went wrong!"))
     }
-
 
     protected fun convertErrorBody(error: HttpException): String {
 
@@ -85,7 +83,6 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
         } catch (e: NullPointerException) {
             return ""
         }

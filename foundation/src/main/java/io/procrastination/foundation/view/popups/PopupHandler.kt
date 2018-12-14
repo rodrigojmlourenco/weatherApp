@@ -13,7 +13,7 @@ interface PopupHandler {
 
 class PopupHandlerImpl : PopupHandler {
 
-    private var popups : MutableList<PopupWindow> = emptyList<PopupWindow>().toMutableList()
+    private var popups: MutableList<PopupWindow> = emptyList<PopupWindow>().toMutableList()
 
     override fun registerPopup(popup: PopupWindow) {
         popups.add(popup)
@@ -24,10 +24,7 @@ class PopupHandlerImpl : PopupHandler {
     }
 
     override fun clearPopups() {
-        popups.forEach { if(it.isShowing) it.dismiss() }
+        popups.forEach { if (it.isShowing) it.dismiss() }
         popups.clear()
     }
-
-
-
 }

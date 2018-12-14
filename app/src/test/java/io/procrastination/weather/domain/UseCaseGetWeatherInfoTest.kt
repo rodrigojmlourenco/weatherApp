@@ -4,17 +4,24 @@ import io.procrastination.weather.data.network.NetworkWeatherRepo
 import io.procrastination.weather.domain.error.CachedInformationIsTooOldException
 import io.procrastination.weather.domain.error.NoInformationAvailableToPresentToTheUserException
 import io.procrastination.weather.domain.model.LocationInfo
-import io.procrastination.weather.mocks.*
+import io.procrastination.weather.mocks.MockLocalWeatherRepository
+import io.procrastination.weather.mocks.MockNetworkHandler
+import io.procrastination.weather.mocks.MockScheduler
+import io.procrastination.weather.mocks.mockApiKey
+import io.procrastination.weather.mocks.mockBaseUrl
+import io.procrastination.weather.mocks.mockCoordsWeatherInfo
+import io.procrastination.weather.mocks.mockIconsUrl
+import io.procrastination.weather.mocks.mockTawaraLocation
+
 import org.junit.Assert
 import org.junit.Test
-import timber.log.Timber
 
 class UseCaseGetWeatherInfoTest {
 
-    val mockNetRepo = NetworkWeatherRepo(mockBaseUrl(), mockApiKey(), mockIconsUrl())
+    private val mockNetRepo = NetworkWeatherRepo(mockBaseUrl(), mockApiKey(), mockIconsUrl())
 
     @Test
-    fun testOnline_loadInfo(){
+    fun testOnline_loadInfo() {
 
         val tawarano = mockCoordsWeatherInfo()
 
@@ -34,7 +41,7 @@ class UseCaseGetWeatherInfoTest {
     }
 
     @Test
-    fun testOffline_loadInfoWithoutCachedData(){
+    fun testOffline_loadInfoWithoutCachedData() {
 
         val tawarano = mockCoordsWeatherInfo()
 
@@ -51,7 +58,7 @@ class UseCaseGetWeatherInfoTest {
     }
 
     @Test
-    fun testOffline_loadInfoWithCachedData(){
+    fun testOffline_loadInfoWithCachedData() {
 
         val tawarano = mockCoordsWeatherInfo(System.currentTimeMillis())
 
@@ -64,15 +71,12 @@ class UseCaseGetWeatherInfoTest {
         val usecaseTest = usecase.createInteractorObservable(mockTawaraLocation()).test()
 
         usecaseTest.assertValue {
-             it == tawarano
+            it == tawarano
         }
-
-
     }
 
-
     @Test
-    fun testOffline_loadInfoWithCachedData_outdated(){
+    fun testOffline_loadInfoWithCachedData_outdated() {
 
         val tawarano = mockCoordsWeatherInfo()
 
@@ -84,12 +88,6 @@ class UseCaseGetWeatherInfoTest {
 
         val usecaseTest = usecase.createInteractorObservable(mockTawaraLocation()).test()
 
-
         usecaseTest.assertError { it is CachedInformationIsTooOldException }
     }
-
-
-
 }
-
-

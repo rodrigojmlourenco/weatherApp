@@ -17,28 +17,35 @@ interface WeatherApi {
      * (geographic coordinates/id/name) in API response.
      */
     @GET("weather")
-    fun getWeatherByCityName(@Query("appid") api : String,
-                             @Query("q") city : String) : Single<WeatherInfoDTO>
-
+    fun getWeatherByCityName(
+        @Query("appid") api: String,
+        @Query("q") city: String
+    ): Single<WeatherInfoDTO>
 
     @GET("weather")
-    fun getWeatherByCoordinates(@Query("appid") api : String,
-                                @Query("lat") lat : String,
-                                @Query("lon") lon : String) : Single<WeatherInfoDTO>
+    fun getWeatherByCoordinates(
+        @Query("appid") api: String,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String
+    ): Single<WeatherInfoDTO>
 
     /**
      * Please note if country is not specified then the search works for USA as a default.
      */
     @GET("weather")
-    fun getWeatherByZipCode(@Query("appid") api : String,
-                            @Query("zip") zipCode : String) : Single<WeatherInfoDTO>
+    fun getWeatherByZipCode(
+        @Query("appid") api: String,
+        @Query("zip") zipCode: String
+    ): Single<WeatherInfoDTO>
 
     /**
-    * You can call by city ID. API responds with exact result.
-    *
-    * List of city ID city.list.json.gz can be downloaded here http://bulk.openweathermap.org/sample/
-    */
+     * You can call by city ID. API responds with exact result.
+     *
+     * List of city ID city.list.json.gz can be downloaded here http://bulk.openweathermap.org/sample/
+     */
     @GET("weather")
-    fun getWeatherByCityId(@Query("appid") api : String,
-                           @Query("zip") zip : String) : Single<WeatherInfoDTO>
+    fun getWeatherByCityId(
+        @Query("appid") api: String,
+        @Query("zip") zip: String
+    ): Single<WeatherInfoDTO>
 }

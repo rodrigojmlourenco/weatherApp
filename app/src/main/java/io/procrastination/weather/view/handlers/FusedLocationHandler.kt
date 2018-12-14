@@ -22,8 +22,7 @@ class FusedLocationHandler(private val context: Context) : LocationHandler {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
-
-    fun setupActivity(activity : Activity) : LocationHandler {
+    fun setupActivity(activity: Activity): LocationHandler {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         return this
     }
@@ -31,36 +30,38 @@ class FusedLocationHandler(private val context: Context) : LocationHandler {
     @SuppressLint("MissingPermission")
     override fun getUsersCurrentLocation(listener: Consumer<LocationInfo>) {
 
-        if(EasyPermissions.hasPermissions(context, *context.locationPermissions())) {
+        if (EasyPermissions.hasPermissions(context, *context.locationPermissions())) {
             fusedLocationClient?.let {
                 it.lastLocation.addOnSuccessListener { location ->
 
                     Observable
-                            .fromCallable {
-                                Geocoder(context).getFromLocation(location.latitude, location.longitude, 5)?: emptyList()
+                        .fromCallable {
+                            Geocoder(context).getFromLocation(location.latitude, location.longitude, 5) ?: emptyList()
+                        }
+                        .map { addresses ->
+                            if (addresses.isNotEmpty()) {
+                                parseLocation(location, addresses[0])
+                            } else {
+                                parseLocation(location)
                             }
-                            .map { addresses ->
-                                if(addresses.isNotEmpty()){
-                                    parseLocation(location, addresses[0])
-                                }else{
-                                    parseLocation(location)
-                                }
-                            }.subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { listener.accept(it) }
+                        }.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { listener.accept(it) }
                 }
             }
         } else throw LocationRequestNotPermitedException()
     }
 
-    private fun parseLocation(androidLocation : Location) : LocationInfo {
+    private fun parseLocation(androidLocation: Location): LocationInfo {
         return LocationInfo(androidLocation.latitude, androidLocation.longitude)
     }
 
-    private fun parseLocation(androidLocation : Location, address : Address) : LocationInfo {
-        return LocationInfo(androidLocation.latitude, androidLocation.longitude,
-                city = address.locality,
-                country = address.countryCode,
-                zipCode = address.postalCode)
+    private fun parseLocation(androidLocation: Location, address: Address): LocationInfo {
+        return LocationInfo(
+            androidLocation.latitude, androidLocation.longitude,
+            city = address.locality,
+            country = address.countryCode,
+            zipCode = address.postalCode
+        )
     }
 }

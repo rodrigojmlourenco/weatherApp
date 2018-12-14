@@ -1,12 +1,9 @@
 package io.procrastination.foundation.domain.usecases
 
-import io.procrastination.foundation.domain.managers.AccountManagerProtocol
 import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.reactivex.Flowable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
-
 
 /**
  * Abstract class for an FlowableInteractor that uses [Flowable].
@@ -48,10 +45,10 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), FlowableInteractor<T
      * [Scheduler.getSubscribeOn] and observing on the [Scheduler.getObserveOn] threads.
      *
      * @param subscriber [DisposableSubscriber] the subscriber
-     * @param params     self-explanatory
+     * @param params self-explanatory
      */
     fun execute(subscriber: DisposableSubscriber<T>, params: P) {
-        //Preconditions.checkNotNull(subscriber);
+        // Preconditions.checkNotNull(subscriber);
         val flowable = buildInteractorFlowable(params)
                 .subscribeOn(scheduler.getSubscribeOn())
                 .observeOn(scheduler.getObserveOn())

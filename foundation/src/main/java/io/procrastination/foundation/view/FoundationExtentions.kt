@@ -16,8 +16,7 @@ fun Context.toast(message: CharSequence, duration: Int = Toast.LENGTH_LONG) {
     Toast.makeText(this, message, duration).show()
 }
 
-
-fun Context.nullOrEmpty(string : String?) : Boolean{
+fun Context.nullOrEmpty(string: String?): Boolean {
     return string == null || string.isEmpty()
 }
 

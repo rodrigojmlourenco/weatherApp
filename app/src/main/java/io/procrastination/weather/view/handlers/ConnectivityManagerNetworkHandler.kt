@@ -1,9 +1,6 @@
 package io.procrastination.weather.view.handlers
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -14,17 +11,18 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 
-class ConnectivityManagerNetworkHandler(context : Context) : ConnectivityManager.NetworkCallback(), NetworkHandler  {
+class ConnectivityManagerNetworkHandler(context: Context) : ConnectivityManager.NetworkCallback(), NetworkHandler {
 
-    private val mNetworkPublisher : PublishSubject<Boolean> = PublishSubject.create()
-    private val mConnectivityManager : ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val mNetworkPublisher: PublishSubject<Boolean> = PublishSubject.create()
+    private val mConnectivityManager: ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     init {
 
         val request = NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
-                .build()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
+            .build()
 
         mConnectivityManager.registerNetworkCallback(request, this)
     }
@@ -34,7 +32,7 @@ class ConnectivityManagerNetworkHandler(context : Context) : ConnectivityManager
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
-    override fun hasNetworkConnectivity(listener: Consumer<Boolean>) : Disposable {
+    override fun hasNetworkConnectivity(listener: Consumer<Boolean>): Disposable {
         return mNetworkPublisher.observeOn(AndroidSchedulers.mainThread()).subscribe(listener)
     }
 
@@ -47,5 +45,4 @@ class ConnectivityManagerNetworkHandler(context : Context) : ConnectivityManager
         super.onLost(network)
         mNetworkPublisher.onNext(false)
     }
-
 }

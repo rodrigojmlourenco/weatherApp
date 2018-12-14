@@ -10,7 +10,7 @@
             type="io.procrastination.weather.view.home.HomeViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
@@ -23,7 +23,7 @@
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -178,14 +178,14 @@
             android:id="@+id/progress_indicator"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_refresh"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -237,7 +237,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_outdated" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/group_weather"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -245,7 +245,7 @@
             app:constraint_referenced_ids="txt_location,txt_conditions,txt_temperature,txt_wind_speed,txt_wind_orientation,txt_last_update,iv_weather"
             tools:visibility="visible" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/group_outdated"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -254,5 +254,5 @@
             tools:visibility="gone" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

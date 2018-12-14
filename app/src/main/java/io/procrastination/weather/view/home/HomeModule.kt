@@ -1,6 +1,6 @@
 package io.procrastination.weather.view.home
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import io.procrastination.weather.domain.UseCaseGetWeatherInfo
@@ -12,10 +12,12 @@ import io.procrastination.weather.view.handlers.FusedLocationHandler
 class HomeModule {
 
     @Provides
-    fun providesViewModel(view : HomeActivity,
-                          useCase : UseCaseGetWeatherInfo,
-                          locationHandler: LocationHandler,
-                          networkHandler: NetworkHandler) : HomeViewModel{
+    fun providesViewModel(
+        view: HomeActivity,
+        useCase: UseCaseGetWeatherInfo,
+        locationHandler: LocationHandler,
+        networkHandler: NetworkHandler
+    ): HomeViewModel {
         val vm = ViewModelProviders.of(view).get(HomeViewModel::class.java)
 
         vm.setNavigator(view)
