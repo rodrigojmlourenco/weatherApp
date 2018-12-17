@@ -13,8 +13,10 @@ import io.procrastination.weather.domain.model.WeatherInfo
 import io.procrastination.weather.domain.protocols.LocationHandler
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 
 class HomeViewModel : FoundationViewModel<HomeNavigator>() {
 
@@ -55,9 +57,9 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
         networkHandler.hasNetworkConnectivity(Consumer { hasConnectivity.set(it) }).containIn(usecaseContainer)
     }
 
-    fun onPressedRefeshWeather() {
+    fun onPressedRefreshWeather() {
 
-        if (hasConnectivity.get())
+        if (networkHandler.hasNetworkConnectivity())
             loadWeatherInfo()
         else
             mNavigator.goToWifiSettings()
@@ -67,28 +69,47 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
         mNavigator.goToWifiSettings()
     }
 
-    private fun loadWeatherInfo() {
-        locationHandler.getUsersCurrentLocation(Consumer { location ->
-            executeUseCaseInForeground(getWeatherInfoUseCase, location, Consumer { info ->
-                weatherInfo.postValue(info)
+    internal fun loadWeatherInfo() {
+        locationHandler
+                .getUsersCurrentLocation()
+                .subscribeOn(scheduler.getSubscribeOn())
+                .observeOn(scheduler.getObserveOn())
+                .subscribe(
+                        { location ->
 
-                condition.set(info.condition)
-                temperature.set("${info.temperature}ºc")
-                windspeed.set("${info.windSpeed}mph")
-                windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
-                lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK).format(info.lastUpdatedAt))
-                this.location.set("${info.location.city}, ${info.location.country}")
-                hasFreshData.set(true)
-            }, Consumer { error ->
+                            getWeatherInfoUseCase.createInteractorObservable(location)
+                                    .subscribeOn(scheduler.getSubscribeOn())
+                                    .observeOn(scheduler.getObserveOn())
+                                    .subscribeBy(
+                                            onNext = {info ->
+                                                weatherInfo.postValue(info)
 
-                isLoading.postValue(false)
+                                                condition.set(info.condition)
+                                                temperature.set("${info.temperature}ºc")
+                                                windspeed.set("${info.windSpeed}mph")
+                                                windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
+                                                lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK).format(info.lastUpdatedAt))
+                                                this.location.set("${info.location.city}, ${info.location.country}")
+                                                hasFreshData.set(true)
+                                            },
+                                            onError = {error ->
+                                                isLoading.postValue(false)
 
-                when (error) {
-                    is CachedInformationIsTooOldException -> hasFreshData.set(false)
-                    is NoInformationAvailableToPresentToTheUserException -> hasFreshData.set(false)
-                    else -> mNavigator.handleError(error)
-                }
-            })
-        })
+                                                when (error) {
+                                                    is CachedInformationIsTooOldException -> hasFreshData.set(false)
+                                                    is NoInformationAvailableToPresentToTheUserException -> hasFreshData.set(false)
+                                                    else -> mNavigator.handleError(error)
+                                                }
+                                            },
+                                            onComplete = {
+                                                isLoading.postValue(false)
+                                            }
+                                    )
+                        },
+                        { error ->
+                            mNavigator.handleError(error)
+                        }
+                ).addTo(usecaseContainer)
+
     }
 }

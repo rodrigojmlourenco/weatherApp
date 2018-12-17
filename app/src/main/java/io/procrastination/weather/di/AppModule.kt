@@ -3,6 +3,7 @@ package io.procrastination.weather.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.procrastination.foundation.domain.schedueler.Scheduler
@@ -16,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [AppModule.AppBindings::class])
 class AppModule {
 
     @Provides
@@ -44,11 +45,6 @@ class AppModule {
     }
 
     @Provides
-    fun provideLocationHandler(context: Context): LocationHandler {
-        return FusedLocationHandler(context)
-    }
-
-    @Provides
     fun provideNetworkHandler(context: Context): NetworkHandler {
         return ConnectivityManagerNetworkHandler(context)
     }
@@ -59,5 +55,12 @@ class AppModule {
         return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather-db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Module
+    abstract class AppBindings(){
+
+        @Binds
+        abstract fun bindLocationHandler(handler: FusedLocationHandler) : LocationHandler
     }
 }

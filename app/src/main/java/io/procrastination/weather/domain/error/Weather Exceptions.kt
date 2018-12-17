@@ -6,6 +6,8 @@ class UnableToFetchWeatherInfo : WeatherException()
 
 class LocationRequestNotPermitedException : WeatherException()
 
+class LocationServicesNotAvailableException : WeatherException()
+
 class NoInformationAvailableToPresentToTheUserException : WeatherException()
 
 class CachedInformationIsTooOldException : Exception()

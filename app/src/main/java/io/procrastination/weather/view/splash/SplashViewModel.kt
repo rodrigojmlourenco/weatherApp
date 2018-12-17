@@ -5,16 +5,22 @@ import androidx.lifecycle.LifecycleOwner
 import io.procrastination.foundation.view.FoundationViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
 class SplashViewModel : FoundationViewModel<SplashNavigator>() {
 
     @SuppressLint("CheckResult")
     override fun onStart(owner: LifecycleOwner) {
-        Observable.just(true)
-            .delay(DELAY_SPLASH, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { mNavigator.requestLocationPermissions() }
+        start().subscribe()
+    }
+
+    internal fun start(delay : Long = DELAY_SPLASH) : Observable<Boolean> {
+        return Observable.just(true)
+                .delay(delay, TimeUnit.SECONDS)
+                .subscribeOn(scheduler.getSubscribeOn())
+                .observeOn(scheduler.getObserveOn())
+                .doOnComplete { onPressedRequestPermissions() }
     }
 
     fun onPressedRequestPermissions() {

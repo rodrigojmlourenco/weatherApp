@@ -83,7 +83,14 @@ dependencies {
     kapt(InjectionDependencies.dagger2_annotation)
     kapt(Dependencies.glideCompiler)
 
-    testImplementation(TestingDependencies.junit4)
+    testImplementation(UnitTests.junit)
+    testImplementation(UnitTests.androidTestCore)
+    testImplementation(UnitTests.mockito)
+    testImplementation(UnitTests.mockitoKt)
+    testImplementation(UnitTests.roboletric)
+    testImplementation(UnitTests.archComponents)
+    testImplementation(UnitTests.jFixtures)
+
     androidTestImplementation(TestingDependencies.testRunner)
     androidTestImplementation(TestingDependencies.espresso)
 }

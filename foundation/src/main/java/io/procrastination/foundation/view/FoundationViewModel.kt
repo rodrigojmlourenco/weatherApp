@@ -4,12 +4,14 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.procrastination.foundation.domain.usecases.UseCaseExecutor
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class FoundationViewModel<N : FoundationNavigator> : ViewModel(), DefaultLifecycleObserver, UseCaseExecutor {
 
     lateinit var mNavigator: N
+    lateinit var scheduler: Scheduler
     private var mCompositeDisposable: CompositeDisposable? = null
 
     override val navigator: FoundationNavigator

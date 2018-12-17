@@ -61,7 +61,7 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         // Adjust according to the network state
         toggleRefreshVisibility(mNetworkHandler.hasNetworkConnectivity())
         mNetworkHandler.hasNetworkConnectivity(Consumer { hasNetwork ->
-            if (hasNetwork) getViewModel().onPressedRefeshWeather()
+            if (hasNetwork) getViewModel().onPressedRefreshWeather()
             toggleRefreshVisibility(hasNetwork)
         })
     }

@@ -1,6 +1,6 @@
 object Versions {
     const val gradle = "3.2.1"
-    const val kotlin = "1.3.10"
+    const val kotlin = "1.3.11"
 
     // Support Lib
     const val support = "27.1.1"
@@ -22,7 +22,7 @@ object Versions {
     const val androidTestRunner = "1.2.0"
     const val androidEspresso = "3.2.0"
 
-    const val rxJava = "2.2.0"
+    const val rxJava = "2.2.4"
     const val rxAndroid = "2.1.0"
     const val rxKotlin = "2.3.0"
 
@@ -44,7 +44,8 @@ object Dependencies {
 
     //Android Support [https://developer.android.com/topic/libraries/support-library/packages]
     const val supportCompatV7 = "androidx.appcompat:appcompat:${Versions.AndroidX}"
-    const val supportConstraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val supportConstraintLayout =
+            "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val supportRecyclerView = "androidx.recyclerview:recyclerview:${Versions.RecyclerView}"
 
     const val materialDesign = "com.google.android.material:material:1.0.0-rc01"
@@ -60,12 +61,14 @@ object ArchDependencies {
     const val lifeCycleExts = "androidx.lifecycle:lifecycle-extensions:${Versions.androidArch}"
     const val lifeCycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.androidArch}"
     const val room = "androidx.room:room-runtime:${Versions.androidArch}"
-    const val roomCompiler = "androidx.room:room-compiler:${Versions.androidArch}" // use kapt for Kotlin
+    const val roomCompiler =
+            "androidx.room:room-compiler:${Versions.androidArch}" // use kapt for Kotlin
     const val roomRx = "androidx.room:room-rxjava2:${Versions.androidArch}"
 }
 
 object PlayServicesDependencies {
-    const val locationAndActivityRecog = "com.google.android.gms:play-services-location:${Versions.playServices}"
+    const val locationAndActivityRecog =
+            "com.google.android.gms:play-services-location:${Versions.playServices}"
 }
 
 object NetworkDependencies {
@@ -83,7 +86,8 @@ object RxDependencies {
 
 object InjectionDependencies {
     const val dagger2_android = "com.google.dagger:dagger-android:${Versions.dagger2}"
-    const val dagger2_androidSupport = "com.google.dagger:dagger-android-support:${Versions.dagger2}"
+    const val dagger2_androidSupport =
+            "com.google.dagger:dagger-android-support:${Versions.dagger2}"
     const val dagger2_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
     const val dagger2_annotation = "com.google.dagger:dagger-android-processor:${Versions.dagger2}"
 }
@@ -92,4 +96,14 @@ object TestingDependencies {
     const val junit4 = "junit:junit:4.12"
     const val testRunner = "com.android.support.test:runner:1.0.2"
     const val espresso = "com.android.support.test.espresso:espresso-core:3.0.2"
+}
+
+object UnitTests {
+    const val junit = "junit:junit:4.12"
+    const val androidTestCore = "androidx.test:core:1.1.0"
+    const val mockito = "org.mockito:mockito-inline:2.23.4"
+    const val mockitoKt = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    const val roboletric = "org.robolectric:robolectric:4.1"
+    const val archComponents = "androidx.arch.core:core-testing:2.0.0"
+    const val jFixtures = "com.flextrade.jfixture:jfixture:2.7.2"
 }
