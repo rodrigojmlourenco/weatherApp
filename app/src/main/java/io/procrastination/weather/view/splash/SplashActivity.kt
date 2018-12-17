@@ -1,5 +1,6 @@
 package io.procrastination.weather.view.splash
 
+import android.Manifest
 import android.view.View
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
@@ -35,7 +36,12 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
     }
 
     override fun requestLocationPermissions() {
-        if (EasyPermissions.hasPermissions(this, *this.locationPermissions())) {
+        if (EasyPermissions.hasPermissions(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
             Timber.i("User has granted access to location.")
             goToHome()
         } else {
@@ -43,7 +49,8 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
                 this,
                 getString(R.string.location_rationale),
                 RC_LOCATION,
-                *this.locationPermissions()
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
         }
     }

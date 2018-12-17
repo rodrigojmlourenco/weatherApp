@@ -1,5 +1,6 @@
 package io.procrastination.weather.view.handlers
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -11,7 +12,6 @@ import com.google.android.gms.location.LocationServices
 import io.procrastination.weather.domain.error.LocationRequestNotPermitedException
 import io.procrastination.weather.domain.model.LocationInfo
 import io.procrastination.weather.domain.protocols.LocationHandler
-import io.procrastination.weather.view.locationPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
@@ -30,13 +30,19 @@ class FusedLocationHandler(private val context: Context) : LocationHandler {
     @SuppressLint("MissingPermission")
     override fun getUsersCurrentLocation(listener: Consumer<LocationInfo>) {
 
-        if (EasyPermissions.hasPermissions(context, *context.locationPermissions())) {
+        if (EasyPermissions.hasPermissions(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
             fusedLocationClient?.let {
                 it.lastLocation.addOnSuccessListener { location ->
 
                     Observable
                         .fromCallable {
-                            Geocoder(context).getFromLocation(location.latitude, location.longitude, 5) ?: emptyList()
+                            Geocoder(context)
+                                .getFromLocation(location.latitude, location.longitude, MAX_RESULTS) ?: emptyList()
                         }
                         .map { addresses ->
                             if (addresses.isNotEmpty()) {
@@ -63,5 +69,9 @@ class FusedLocationHandler(private val context: Context) : LocationHandler {
             country = address.countryCode,
             zipCode = address.postalCode
         )
+    }
+
+    companion object {
+        const val MAX_RESULTS = 5
     }
 }

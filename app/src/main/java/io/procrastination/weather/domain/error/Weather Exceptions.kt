@@ -9,3 +9,5 @@ class LocationRequestNotPermitedException : WeatherException()
 class NoInformationAvailableToPresentToTheUserException : WeatherException()
 
 class CachedInformationIsTooOldException : Exception()
+
+class UnableToGetWeatherException : Exception()

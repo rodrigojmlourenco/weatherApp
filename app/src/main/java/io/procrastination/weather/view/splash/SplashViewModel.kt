@@ -12,12 +12,16 @@ class SplashViewModel : FoundationViewModel<SplashNavigator>() {
     @SuppressLint("CheckResult")
     override fun onStart(owner: LifecycleOwner) {
         Observable.just(true)
-            .delay(3, TimeUnit.SECONDS)
+            .delay(DELAY_SPLASH, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { mNavigator.requestLocationPermissions() }
     }
 
     fun onPressedRequestPermissions() {
         mNavigator.requestLocationPermissions()
+    }
+
+    companion object {
+        const val DELAY_SPLASH = 3L//Seconds
     }
 }

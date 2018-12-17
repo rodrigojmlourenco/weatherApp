@@ -10,6 +10,7 @@ import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.procrastination.weather.domain.protocols.WeatherRepository
 import io.reactivex.Observable
 import timber.log.Timber
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -52,7 +53,7 @@ constructor(
             .map { weatherInfo ->
                 try {
                     localRepository.cache(weatherInfo).blockingGet()
-                } catch (e: Exception) {
+                } catch (e: IOException) {
                     Timber.e(e)
                     throw e
                 }

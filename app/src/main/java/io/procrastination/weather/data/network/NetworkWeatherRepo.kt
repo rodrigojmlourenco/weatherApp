@@ -6,11 +6,12 @@ import io.procrastination.weather.domain.model.WeatherInfo
 import io.procrastination.weather.domain.protocols.WeatherRepository
 import io.reactivex.Single
 import okhttp3.Interceptor
+import javax.net.ssl.HttpsURLConnection
 
 open class NetworkWeatherRepo
 constructor(
     baseUrl: String,
-    protected val apiKey: String,
+    private val apiKey: String,
     private val iconsUrl: String
 ) : BaseServiceGenerator<WeatherApi>(baseUrl), WeatherRepository {
 
@@ -28,7 +29,7 @@ constructor(
 
         return api().getWeatherByCoordinates(apiKey, lat.toString(), lng.toString())
             .map {
-                if (it.code != 200) {
+                if (it.code != HttpsURLConnection.HTTP_OK) {
                     throw UnableToFetchWeatherInfo()
                 } else {
                     WeatherMapper(iconsUrl).toModel(it)
@@ -47,7 +48,7 @@ constructor(
         }
 
         return observable.map {
-            if (it.code != 200) {
+            if (it.code != HttpsURLConnection.HTTP_OK) {
                 throw UnableToFetchWeatherInfo()
             } else {
                 WeatherMapper(iconsUrl).toModel(it)

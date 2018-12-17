@@ -11,7 +11,8 @@ import androidx.lifecycle.Observer
 import dagger.android.AndroidInjection
 import timber.log.Timber
 
-abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel<*>> : AppCompatActivity(), FoundationNavigator {
+abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel<*>>
+    : AppCompatActivity(), FoundationNavigator {
 
     private lateinit var mViewBinding: VB
 
@@ -35,7 +36,7 @@ abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel
 
             vm.setLifeCycleOwner(this)
 
-            vm.isLoading.observe(this, Observer { /*TODO: Do something*/ })
+            vm.isLoading.observe(this, Observer { /* ignore */ })
         }
     }
 

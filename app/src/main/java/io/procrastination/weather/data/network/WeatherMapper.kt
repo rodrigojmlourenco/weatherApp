@@ -14,6 +14,9 @@ import io.procrastination.weather.domain.model.WEST
 import io.procrastination.weather.domain.model.WeatherInfo
 import java.util.Date
 
+/**
+ * TODO: Improve degree mapping
+ */
 class WeatherMapper(private val iconBaseUrl: String) : DTOMapper<WeatherInfoDTO, WeatherInfo> {
 
     override fun toModel(dto: WeatherInfoDTO): WeatherInfo {
@@ -23,7 +26,7 @@ class WeatherMapper(private val iconBaseUrl: String) : DTOMapper<WeatherInfoDTO,
             dto.main.temp.toInt(),
             dto.wind.speed.toInt(),
             degreeToCompassDirection(dto.wind),
-            Date(dto.timestamp.toLong() * 1000),
+            Date(dto.timestamp.toLong() * CONVERSION_FACTOR),
             LocationInfo(dto.coordinates.latitude, dto.coordinates.longitude, dto.name, dto.sys.country),
             buildIconUrl(dto)
         )
@@ -34,15 +37,14 @@ class WeatherMapper(private val iconBaseUrl: String) : DTOMapper<WeatherInfoDTO,
 
         val deg = windInfo.degrees
 
-        // TODO: the degree mapping is not correct
         return when {
-            deg >= 45 && deg < 90 -> NORTH_EAST
-            deg >= 90 && deg < 135 -> EAST
-            deg >= 135 && deg < 180 -> SOUTH_EAST
-            deg >= 180 && deg < 225 -> SOUTH
-            deg >= 225 && deg < 270 -> SOUTH_WEST
-            deg >= 270 && deg < 315 -> WEST
-            deg >= 315 && deg < 360 -> NORTH_WEST
+            deg >= DEGREE_45 && deg < DEGREE_90 -> NORTH_EAST
+            deg >= DEGREE_90 && deg < DEGREE_135 -> EAST
+            deg >= DEGREE_135 && deg < DEGREE_180 -> SOUTH_EAST
+            deg >= DEGREE_180 && deg < DEGREE_225 -> SOUTH
+            deg >= DEGREE_225 && deg < DEGREE_270 -> SOUTH_WEST
+            deg >= DEGREE_270 && deg < DEGREE_315 -> WEST
+            deg >= DEGREE_315 && deg < DEGREE_360 -> NORTH_WEST
             else -> NORTH
         }
     }
@@ -52,5 +54,18 @@ class WeatherMapper(private val iconBaseUrl: String) : DTOMapper<WeatherInfoDTO,
             "$iconBaseUrl${dto.weather[0].icon}.png"
         else
             null
+    }
+
+    companion object {
+        const val DEGREE_45 = 45f
+        const val DEGREE_90 = 90f
+        const val DEGREE_135 = 135f
+        const val DEGREE_180 = 180f
+        const val DEGREE_225 = 225f
+        const val DEGREE_270 = 270f
+        const val DEGREE_315 = 315f
+        const val DEGREE_360 = 360f
+
+        const val CONVERSION_FACTOR = 1000
     }
 }

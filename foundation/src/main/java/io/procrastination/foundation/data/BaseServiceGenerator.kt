@@ -3,6 +3,7 @@ package io.procrastination.foundation.data
 import com.google.gson.GsonBuilder
 import io.procrastination.foundation.BuildConfig
 import io.procrastination.foundation.domain.errors.ServiceNotBuiltException
+import io.procrastination.foundation.domain.errors.UnableToBuildServiceException
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,9 +27,9 @@ abstract class BaseServiceGenerator<API>(private val baseUrl: String) {
 
     private fun prepareOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-                .readTimeout(NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
-                .connectTimeout(NETWORK_CONNECT_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+            .readTimeout(NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(NETWORK_READ_WRITE_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(NETWORK_CONNECT_TIMEOUT_IN_SECONDS.toLong(), TimeUnit.SECONDS)
 
         for (i in interceptors)
             builder.addInterceptor(i)
@@ -46,11 +47,11 @@ abstract class BaseServiceGenerator<API>(private val baseUrl: String) {
         val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create()
 
         return Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .build()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(client)
+            .build()
     }
 
     fun runAsMock(mockService: API) {
@@ -74,7 +75,7 @@ abstract class BaseServiceGenerator<API>(private val baseUrl: String) {
 
     private fun createService(serviceClass: Class<API>): API {
         return if (mRetrofit == null)
-            throw RuntimeException(this.javaClass.simpleName + " must run build() in its constructor.")
+            throw UnableToBuildServiceException(this.javaClass.simpleName + " must run build() in its constructor.")
         else
             mRetrofit!!.create(serviceClass)
     }

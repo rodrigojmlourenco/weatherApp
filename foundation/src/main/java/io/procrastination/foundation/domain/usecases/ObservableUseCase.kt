@@ -56,12 +56,13 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
     ): Disposable {
 
         return buildUseCaseObservable(params)
-                .filter(filter)
-                .subscribeOn(scheduler.getSubscribeOn())
-                .observeOn(scheduler.getObserveOn())
-                .subscribe(observer, onError, onComplete)
+            .filter(filter)
+            .subscribeOn(scheduler.getSubscribeOn())
+            .observeOn(scheduler.getObserveOn())
+            .subscribe(observer, onError, onComplete)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     protected fun buildValidationError(params: P): Observable<*> {
         return Observable.error<Any>(Exception("Something went wrong!"))
     }
@@ -71,21 +72,18 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
         val reader: BufferedReader
         val sb = StringBuilder()
 
+        val inputStream = error.response().errorBody()!!.byteStream()
+        reader = BufferedReader(InputStreamReader(inputStream))
         try {
-            val `is` = error.response().errorBody()!!.byteStream()
-            reader = BufferedReader(InputStreamReader(`is`))
-            try {
-                var line = reader.readLine()
-                while (line != null) {
-                    sb.append(line)
-                    line = reader.readLine()
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
+            var line = reader.readLine()
+            while (line != null) {
+                sb.append(line)
+                line = reader.readLine()
             }
-        } catch (e: NullPointerException) {
-            return ""
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
+
 
         return sb.toString()
     }

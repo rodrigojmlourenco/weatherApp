@@ -42,12 +42,18 @@ interface UseCaseExecutor {
      * Executes the provided use case with the input parameter, with foreground feedback, i.e. loading.
      * @param useCase The [ObservableUseCase] use-case to be executed.
      * @param input The input parameters
-     * @param filter [Predicate] that filter out the result. The predicate should return true to continue, or false to abort.
+     * @param filter [Predicate] that filter out the result. The predicate should return true to continue,
+     * or false to abort.
      * @param onSuccess [Consumer] that specified the on success behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
      */
-    fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>) {
+    fun <T, P> executeUseCaseInForeground(
+        useCase: ObservableUseCase<T, P>,
+        input: P,
+        filter: Predicate<T>,
+        onSuccess: Consumer<T>
+    ) {
         execute(useCase, input, filter = filter, onSuccess = onSuccess, isForeground = true)
     }
 
@@ -55,13 +61,20 @@ interface UseCaseExecutor {
      * Executes the provided use case with the input parameter, with foreground feedback, i.e. loading.
      * @param useCase The [ObservableUseCase] use-case to be executed.
      * @param input The input parameters
-     * @param filter [Predicate] that filter out the result. The predicate should return true to continue, or false to abort.
+     * @param filter [Predicate] that filter out the result. The predicate should return true to continue,
+     * or false to abort.
      * @param onSuccess [Consumer] that specified the on success behavior.
      * @param onError [Consumer] that specifies the on error behavior.
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
      */
-    fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>, onError: Consumer<Throwable>) {
+    fun <T, P> executeUseCaseInForeground(
+        useCase: ObservableUseCase<T, P>,
+        input: P,
+        filter: Predicate<T>,
+        onSuccess: Consumer<T>,
+        onError: Consumer<Throwable>
+    ) {
         execute(useCase, input, filter = filter, onSuccess = onSuccess, onError = onError, isForeground = true)
     }
 
@@ -74,7 +87,12 @@ interface UseCaseExecutor {
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
      */
-    fun <T, P> executeUseCaseInForeground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>, onError: Consumer<Throwable>) {
+    fun <T, P> executeUseCaseInForeground(
+        useCase: ObservableUseCase<T, P>,
+        input: P,
+        onSuccess: Consumer<T>,
+        onError: Consumer<Throwable>
+    ) {
         execute(useCase, input, onSuccess = onSuccess, isForeground = true)
     }
 
@@ -89,7 +107,12 @@ interface UseCaseExecutor {
      * @param T The [ObservableUseCase] output generic type.
      * @param P The [ObservableUseCase] input generic type.
      */
-    fun <T, P> executeUseCaseInBackground(useCase: ObservableUseCase<T, P>, input: P, onSuccess: Consumer<T>, onError: Consumer<Throwable>) {
+    fun <T, P> executeUseCaseInBackground(
+        useCase: ObservableUseCase<T, P>,
+        input: P,
+        onSuccess: Consumer<T>,
+        onError: Consumer<Throwable>
+    ) {
         execute(useCase, input, onSuccess = onSuccess, onError = onError, isForeground = false)
     }
 
@@ -114,7 +137,12 @@ interface UseCaseExecutor {
      * @param <T>
      * @param <P>
      */
-    fun <T, P> executeUseCaseInBackground(useCase: ObservableUseCase<T, P>, input: P, filter: Predicate<T>, onSuccess: Consumer<T>) {
+    fun <T, P> executeUseCaseInBackground(
+        useCase: ObservableUseCase<T, P>,
+        input: P,
+        filter: Predicate<T>,
+        onSuccess: Consumer<T>
+    ) {
         execute(useCase, input, filter, onSuccess, isForeground = false)
     }
 
@@ -130,9 +158,9 @@ interface UseCaseExecutor {
         if (isForeground) isLoading.postValue(true)
 
         useCase.execute(input, filter, onSuccess,
-                onError ?: buildStandardErrorHandler(isForeground, navigator),
-                Action {
-                    if (isForeground) isLoading.postValue(false)
-                }).containIn(usecaseContainer)
+            onError ?: buildStandardErrorHandler(isForeground, navigator),
+            Action {
+                if (isForeground) isLoading.postValue(false)
+            }).containIn(usecaseContainer)
     }
 }

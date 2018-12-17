@@ -56,4 +56,4 @@ data class SystemsInfoDTO
 constructor(
     @Expose @SerializedName("message") val message: Float,
     @Expose @SerializedName("country") val country: String?
-) // TODO: incomplete
+)
