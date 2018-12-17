@@ -4,5 +4,6 @@ android {
         xmlReport true
         htmlReport true
         lintConfig file("$rootDir/team/lint.xml")
+        htmlOutput file("$rootDir/outputs/lint/lint.html")
     }
 }
