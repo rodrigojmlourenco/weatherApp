@@ -22,8 +22,8 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
-          command: ./gradlew lint test
+          name: Run Lint and Tests
+          command: ./gradlew lint detekt test
       - run:
           name: Check for dependency versions
           command: ./gradlew dependencyUpdates -Drevision=release
