@@ -24,6 +24,9 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
+      - run:
+          name: Check for dependency versions
+          command: ./gradlew dependencyUpdates -Drevision=release
       - store_artifacts:
           path: outputs
           destination: reports

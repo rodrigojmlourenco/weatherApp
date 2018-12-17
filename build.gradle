@@ -40,10 +40,15 @@ allprojects {
         google()
         jcenter()
     }
+
+    test {
+        reports{
+            html.enabled = true
+            junitXml.enabled = true
+        }
+    }
 }
 
-subprojects{
-}
 
 clean {
     delete(rootProject.buildDir)
