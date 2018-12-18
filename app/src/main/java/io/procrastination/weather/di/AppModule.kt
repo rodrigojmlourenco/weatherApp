@@ -58,7 +58,7 @@ class AppModule {
     }
 
     @Module
-    abstract class AppBindings() {
+    abstract class AppBindings {
 
         @Binds
         abstract fun bindLocationHandler(handler: FusedLocationHandler): LocationHandler

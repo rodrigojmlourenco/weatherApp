@@ -71,44 +71,50 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
 
     internal fun loadWeatherInfo() {
         locationHandler
-                .getUsersCurrentLocation()
-                .subscribeOn(scheduler.getSubscribeOn())
-                .observeOn(scheduler.getObserveOn())
-                .subscribe(
-                        { location ->
+            .getUsersCurrentLocation()
+            .subscribeOn(scheduler.getSubscribeOn())
+            .observeOn(scheduler.getObserveOn())
+            .subscribe(
+                { location ->
 
-                            getWeatherInfoUseCase.createInteractorObservable(location)
-                                    .subscribeOn(scheduler.getSubscribeOn())
-                                    .observeOn(scheduler.getObserveOn())
-                                    .subscribeBy(
-                                            onNext = { info ->
-                                                weatherInfo.postValue(info)
+                    getWeatherInfoUseCase.createInteractorObservable(location)
+                        .subscribeOn(scheduler.getSubscribeOn())
+                        .observeOn(scheduler.getObserveOn())
+                        .subscribeBy(
+                            onNext = { updateView(it)},
+                            onError = { error ->
+                                isLoading.postValue(false)
 
-                                                condition.set(info.condition)
-                                                temperature.set("${info.temperature}ºc")
-                                                windspeed.set("${info.windSpeed}mph")
-                                                windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
-                                                lastUpdate.set(SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK).format(info.lastUpdatedAt))
-                                                this.location.set("${info.location.city}, ${info.location.country}")
-                                                hasFreshData.set(true)
-                                            },
-                                            onError = { error ->
-                                                isLoading.postValue(false)
+                                when (error) {
+                                    is CachedInformationIsTooOldException -> {
+                                        hasFreshData.set(false)
+                                    }
+                                    is NoInformationAvailableToPresentToTheUserException -> {
+                                        hasFreshData.set(false)
+                                    }
+                                    else -> mNavigator.handleError(error)
+                                }
+                            },
+                            onComplete = {
+                                isLoading.postValue(false)
+                            }
+                        )
+                },
+                { mNavigator.handleError(it) }
+            ).addTo(usecaseContainer)
+    }
 
-                                                when (error) {
-                                                    is CachedInformationIsTooOldException -> hasFreshData.set(false)
-                                                    is NoInformationAvailableToPresentToTheUserException -> hasFreshData.set(false)
-                                                    else -> mNavigator.handleError(error)
-                                                }
-                                            },
-                                            onComplete = {
-                                                isLoading.postValue(false)
-                                            }
-                                    )
-                        },
-                        { error ->
-                            mNavigator.handleError(error)
-                        }
-                ).addTo(usecaseContainer)
+    private fun updateView(info: WeatherInfo) {
+        weatherInfo.postValue(info)
+
+        val formattedDate = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK).format(info.lastUpdatedAt)
+
+        condition.set(info.condition)
+        temperature.set("${info.temperature}ºc")
+        windspeed.set("${info.windSpeed}mph")
+        windDirection.set(mNavigator.getDirectionAsString(info.windDirection))
+        lastUpdate.set(formattedDate)
+        location.set("${info.location.city}, ${info.location.country}")
+        hasFreshData.set(true)
     }
 }
