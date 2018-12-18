@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="io.procrastination.sample">
+
+
+    <application
+            android:allowBackup="false"
+            android:theme="@style/AppTheme"
+            android:name="io.procrastination.weather.TestWeatherApp"/>
+
+</manifest>
