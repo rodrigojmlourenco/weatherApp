@@ -17,7 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner.StrictStubs::class)
 class SplashViewModelTest {
 
-    private lateinit var sut : SplashViewModel
+    private lateinit var sut: SplashViewModel
 
     @Mock private lateinit var mockNavigator: SplashNavigator
     @Mock private lateinit var mockOwner: LifecycleOwner
@@ -25,7 +25,7 @@ class SplashViewModelTest {
     @Mock private lateinit var mockScheduler: Scheduler
 
     @Before
-    fun setup(){
+    fun setup() {
         RxJavaPlugins.reset()
 
         whenever(mockOwner.lifecycle).thenReturn(mockLifecycle)
@@ -37,25 +37,23 @@ class SplashViewModelTest {
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         RxJavaPlugins.reset()
     }
 
     @Test
-    fun `WHEN onStart THEN request navigation permissions from navigator`(){
+    fun `WHEN onStart THEN request navigation permissions from navigator`() {
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         whenever(mockScheduler.getSubscribeOn()).thenReturn(Schedulers.trampoline())
         whenever(mockScheduler.getObserveOn()).thenReturn(Schedulers.trampoline())
 
         sut.start(0).test().assertComplete()
         verify(mockNavigator).requestLocationPermissions()
-
     }
 
     @Test
-    fun `WHEN onPressedRequestPermissions THEN request navigation permissions from navigator`(){
+    fun `WHEN onPressedRequestPermissions THEN request navigation permissions from navigator`() {
         sut.onPressedRequestPermissions()
         verify(mockNavigator).requestLocationPermissions()
     }
-
 }

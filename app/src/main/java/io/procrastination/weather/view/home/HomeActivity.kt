@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,7 +21,6 @@ import io.procrastination.weather.domain.model.SOUTH
 import io.procrastination.weather.domain.model.SOUTH_EAST
 import io.procrastination.weather.domain.model.SOUTH_WEST
 import io.procrastination.weather.domain.model.WEST
-
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -35,10 +33,8 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         }
     }
 
-    @Inject
-    lateinit var mViewModel: HomeViewModel
-    @Inject
-    lateinit var mNetworkHandler: NetworkHandler
+    @Inject lateinit var mViewModel: HomeViewModel
+    @Inject lateinit var mNetworkHandler: NetworkHandler
 
     private var mErrorPopup: ErrorPopup? = null
 
@@ -55,7 +51,8 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         })
 
         getViewModel().isLoading.observe(this, Observer { loading ->
-            getViewBinding().progressIndicator.visibility = if (loading == true) View.VISIBLE else View.GONE
+            getViewBinding().progressIndicator.visibility =
+                if (loading == true) View.VISIBLE else View.GONE
         })
 
         // Adjust according to the network state

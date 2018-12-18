@@ -10,5 +10,5 @@ interface LocationHandler {
     @Throws(LocationRequestNotPermitedException::class)
     fun getUsersCurrentLocation(listener: Consumer<LocationInfo>)
 
-    fun getUsersCurrentLocation() : Single<LocationInfo>
+    fun getUsersCurrentLocation(): Single<LocationInfo>
 }

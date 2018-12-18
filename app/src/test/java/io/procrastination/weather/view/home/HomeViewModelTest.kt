@@ -28,8 +28,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Locale
 
 @RunWith(MockitoJUnitRunner.StrictStubs::class)
 class HomeViewModelTest {
@@ -66,7 +65,6 @@ class HomeViewModelTest {
         sut.setNavigator(mockNavigator)
         sut.scheduler = mockScheduler
     }
-
 
     @Test
     fun `WHEN pressed refresh weather GIVEN has network THEN do not go to wifi settings`() {
@@ -169,5 +167,4 @@ class HomeViewModelTest {
 
         verify(mockNavigator).handleError(fxtError)
     }
-
 }

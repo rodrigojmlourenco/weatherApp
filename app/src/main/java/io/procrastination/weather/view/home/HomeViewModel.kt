@@ -16,7 +16,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 class HomeViewModel : FoundationViewModel<HomeNavigator>() {
 
@@ -81,7 +81,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
                                     .subscribeOn(scheduler.getSubscribeOn())
                                     .observeOn(scheduler.getObserveOn())
                                     .subscribeBy(
-                                            onNext = {info ->
+                                            onNext = { info ->
                                                 weatherInfo.postValue(info)
 
                                                 condition.set(info.condition)
@@ -92,7 +92,7 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
                                                 this.location.set("${info.location.city}, ${info.location.country}")
                                                 hasFreshData.set(true)
                                             },
-                                            onError = {error ->
+                                            onError = { error ->
                                                 isLoading.postValue(false)
 
                                                 when (error) {
@@ -110,6 +110,5 @@ class HomeViewModel : FoundationViewModel<HomeNavigator>() {
                             mNavigator.handleError(error)
                         }
                 ).addTo(usecaseContainer)
-
     }
 }

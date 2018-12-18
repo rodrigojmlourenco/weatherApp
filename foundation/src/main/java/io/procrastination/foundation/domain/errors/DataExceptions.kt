@@ -9,4 +9,4 @@ class ServiceNotBuiltException(private val service: Any) : Exception() {
         get() = String.format("The service %s must be built in its constructor", service::class.java.simpleName)
 }
 
-class UnableToBuildServiceException(message : String) : RuntimeException(message)
+class UnableToBuildServiceException(message: String) : RuntimeException(message)

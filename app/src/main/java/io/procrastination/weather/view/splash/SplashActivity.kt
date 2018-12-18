@@ -8,7 +8,6 @@ import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivitySplashBinding
 import io.procrastination.weather.view.RC_LOCATION
 import io.procrastination.weather.view.home.HomeActivity
-import io.procrastination.weather.view.locationPermissions
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 import javax.inject.Inject

@@ -84,7 +84,6 @@ constructor(scheduler: Scheduler) : BaseUseCase(scheduler), ObservableInteractor
             e.printStackTrace()
         }
 
-
         return sb.toString()
     }
 }

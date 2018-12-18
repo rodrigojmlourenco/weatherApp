@@ -9,7 +9,6 @@ import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.procrastination.weather.domain.error.LocationRequestNotPermitedException
 import io.procrastination.weather.domain.error.LocationServicesNotAvailableException
 import io.procrastination.weather.domain.model.LocationInfo
@@ -26,9 +25,8 @@ import javax.inject.Inject
 
 class FusedLocationHandler
 @Inject constructor(
-        private val context: Context
+    private val context: Context
 ) : LocationHandler {
-
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
@@ -72,7 +70,6 @@ class FusedLocationHandler
     @SuppressLint("MissingPermission")
     override fun getUsersCurrentLocation(): Single<LocationInfo> {
 
-
         if (!hasLocationPermissions())
             return Single.error<LocationInfo>(LocationRequestNotPermitedException())
         else {
@@ -80,7 +77,6 @@ class FusedLocationHandler
             val subject: SingleSubject<LocationInfo> = SingleSubject.create()
 
             if (fusedLocationClient != null) {
-
 
                 fusedLocationClient!!.lastLocation.addOnSuccessListener { location ->
 
@@ -96,11 +92,9 @@ class FusedLocationHandler
 
                     subject.onSuccess(info)
                 }
-
             } else {
                 subject.onError(LocationServicesNotAvailableException())
             }
-
 
             return subject
         }
