@@ -3,10 +3,13 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
     }
     dependencies {
         classpath(Dependencies.androidGradlePlugin)
         classpath(Dependencies.kotlinGradlePlugin)
+        classpath("com.jaredsburrows:gradle-spoon-plugin:1.5.0")
 
         classpath("com.chaitanyapramod.gradle:findbugs-android:1.1")
     }
@@ -39,6 +42,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
     test {
