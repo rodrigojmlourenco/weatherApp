@@ -1,6 +1,6 @@
 object Versions {
     const val gradle = "3.2.1"
-    const val kotlin = "1.3.11"
+    const val kotlin = "1.3.10"
 
     // Support Lib
     const val support = "27.1.1"
@@ -103,7 +103,7 @@ object UnitTests {
     const val androidTestCore = "androidx.test:core:1.1.0"
     const val mockito = "org.mockito:mockito-inline:2.23.4"
     const val mockitoKt = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
-    const val roboletric = "org.robolectric:robolectric:4.1"
+    const val roboletric = "org.robolectric:robolectric:4.0.2"
     const val archComponents = "androidx.arch.core:core-testing:2.0.0"
     const val jFixtures = "com.flextrade.jfixture:jfixture:2.7.2"
 }

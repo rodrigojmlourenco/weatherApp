@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockitokotlin2.whenever
 import io.procrastination.sample.R
 import io.procrastination.weather.TestWeatherApp
@@ -27,7 +28,6 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
@@ -36,19 +36,22 @@ import org.robolectric.annotation.Config
 @Config(application = TestWeatherApp::class)
 class HomeActivityTest {
 
-    private lateinit var sutController : ActivityController<HomeActivity>
-    private lateinit var sutActivity : HomeActivity
+    private lateinit var sutController: ActivityController<HomeActivity>
+    private lateinit var sutActivity: HomeActivity
 
-    @get:Rule val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
 
-    @Mock lateinit var mockViewModel: HomeViewModel
-    @Mock lateinit var mockNetworkHandler: NetworkHandler
+    @Mock
+    lateinit var mockViewModel: HomeViewModel
+    @Mock
+    lateinit var mockNetworkHandler: NetworkHandler
 
     private val fixtWeatherInfo = MutableLiveData<WeatherInfo>()
     private val fixtIsLoading = MutableLiveData<Boolean>()
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
 
         sutController = Robolectric.buildActivity(HomeActivity::class.java)
@@ -62,70 +65,69 @@ class HomeActivityTest {
     }
 
     @Test
-    fun `WHEN go to wifi settings THEN start activity with appropriate intent`(){
+    fun `WHEN go to wifi settings THEN start activity with appropriate intent`() {
         sutActivity.goToWifiSettings()
 
         val expected = Intent(Settings.ACTION_WIFI_SETTINGS)
-        val actual = Shadows.shadowOf(RuntimeEnvironment.application).nextStartedActivity
+        val actual = Shadows
+            .shadowOf(ApplicationProvider.getApplicationContext<TestWeatherApp>()).nextStartedActivity
 
         Assert.assertEquals(expected.component, actual.component)
     }
 
     @Test
-    fun `WHEN translate direction north THEN north`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.north)
+    fun `WHEN translate direction north THEN north`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.north)
         val actual = sutActivity.getDirectionAsString(NORTH)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction north-east THEN north-east`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.north_east)
+    fun `WHEN translate direction north-east THEN north-east`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.north_east)
         val actual = sutController.start().get().getDirectionAsString(NORTH_EAST)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction east THEN east`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.east)
+    fun `WHEN translate direction east THEN east`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.east)
         val actual = sutController.start().get().getDirectionAsString(EAST)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction south-east THEN south-east`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.south_east)
+    fun `WHEN translate direction south-east THEN south-east`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.south_east)
         val actual = sutController.start().get().getDirectionAsString(SOUTH_EAST)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction south THEN south`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.south)
+    fun `WHEN translate direction south THEN south`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.south)
         val actual = sutController.start().get().getDirectionAsString(SOUTH)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction south-west THEN south-west`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.south_west)
+    fun `WHEN translate direction south-west THEN south-west`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.south_west)
         val actual = sutController.start().get().getDirectionAsString(SOUTH_WEST)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction west THEN west`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.west)
+    fun `WHEN translate direction west THEN west`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.west)
         val actual = sutController.start().get().getDirectionAsString(WEST)
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN translate direction north-west THEN north-west`(){
-        val expected = RuntimeEnvironment.application.getString(R.string.north_west)
+    fun `WHEN translate direction north-west THEN north-west`() {
+        val expected = ApplicationProvider.getApplicationContext<TestWeatherApp>().getString(R.string.north_west)
         val actual = sutController.start().get().getDirectionAsString(NORTH_WEST)
         Assert.assertEquals(expected, actual)
     }
-
-
 }
