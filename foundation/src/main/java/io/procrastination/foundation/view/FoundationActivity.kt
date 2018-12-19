@@ -25,7 +25,7 @@ abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel
     abstract fun getBindingVariableId(): Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
 
         mViewBinding = DataBindingUtil.setContentView(this, getLayoutResId())

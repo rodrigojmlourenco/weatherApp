@@ -1,23 +1,24 @@
 package io.procrastination.weather.view.splash
 
 import android.Manifest
+import android.os.Bundle
 import android.view.View
 import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivitySplashBinding
+import io.procrastination.weather.domain.UseCaseGetWeatherInfo
 import io.procrastination.weather.view.RC_LOCATION
 import io.procrastination.weather.view.home.HomeActivity
-import io.procrastination.weather.view.locationPermissions
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
-import javax.inject.Inject
 
 class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel>(), SplashNavigator,
     EasyPermissions.PermissionCallbacks {
 
-    @Inject
-    lateinit var mViewModel: SplashViewModel
+    private val mViewModel: SplashViewModel by viewModel()
 
     override fun getViewModel(): SplashViewModel? = mViewModel
 
@@ -28,6 +29,11 @@ class SplashActivity : FoundationActivity<ActivitySplashBinding, SplashViewModel
     override fun goToHome() {
         startActivity(HomeActivity.getStartIntent(this))
         finish()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel.setNavigator(this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

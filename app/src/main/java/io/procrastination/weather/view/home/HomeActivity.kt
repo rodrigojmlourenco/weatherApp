@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,10 +21,11 @@ import io.procrastination.weather.domain.model.SOUTH
 import io.procrastination.weather.domain.model.SOUTH_EAST
 import io.procrastination.weather.domain.model.SOUTH_WEST
 import io.procrastination.weather.domain.model.WEST
-
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), HomeNavigator {
 
@@ -35,10 +35,10 @@ class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), H
         }
     }
 
-    @Inject
-    lateinit var mViewModel: HomeViewModel
-    @Inject
-    lateinit var mNetworkHandler: NetworkHandler
+
+    private val mViewModel: HomeViewModel by viewModel { parametersOf(this)}
+
+    private val mNetworkHandler: NetworkHandler by inject()
 
     private var mErrorPopup: ErrorPopup? = null
 

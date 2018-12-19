@@ -73,14 +73,12 @@ dependencies {
 
     implementation(Dependencies.timber)
 
-    implementation(InjectionDependencies.dagger2_android)
-    implementation(InjectionDependencies.dagger2_androidSupport)
+    implementation 'org.koin:koin-android:1.0.2'
+    implementation 'org.koin:koin-android-viewmodel:1.0.2'
 
     implementation(Dependencies.glide)
 
     kapt(ArchDependencies.roomCompiler)
-    kapt(InjectionDependencies.dagger2_compiler)
-    kapt(InjectionDependencies.dagger2_annotation)
     kapt(Dependencies.glideCompiler)
 
     testImplementation(TestingDependencies.junit4)

@@ -1,10 +1,6 @@
-package io.procrastination.weather.di
+package io.procrastination.weather.di.koin
 
-import android.app.Application
-import android.content.Context
 import androidx.room.Room
-import dagger.Module
-import dagger.Provides
 import io.procrastination.foundation.domain.schedueler.Scheduler
 import io.procrastination.weather.data.local.WeatherDatabase
 import io.procrastination.weather.domain.protocols.LocationHandler
@@ -13,21 +9,14 @@ import io.procrastination.weather.view.handlers.ConnectivityManagerNetworkHandle
 import io.procrastination.weather.view.handlers.FusedLocationHandler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module.module
 import timber.log.Timber
-import javax.inject.Singleton
 
-@Module
-class AppModule {
+val app = module {
 
-    @Provides
-    @Singleton
-    fun provideContext(application: Application): Context {
-        return application.applicationContext
-    }
-
-    @Provides
-    fun provideScheduler(): Scheduler {
-        return object : Scheduler {
+    factory {
+        object : Scheduler {
             override fun getSubscribeOn(): io.reactivex.Scheduler = Schedulers.io()
 
             override fun getObserveOn(): io.reactivex.Scheduler = AndroidSchedulers.mainThread()
@@ -35,28 +24,23 @@ class AppModule {
             override fun getIoSubscribeOn(): io.reactivex.Scheduler = Schedulers.io()
 
             override fun getIoObserveOn(): io.reactivex.Scheduler = Schedulers.io()
-        }
+        } as Scheduler
     }
 
-    @Provides
-    fun provideTimberTree(): Timber.Tree {
-        return Timber.DebugTree()
+    factory {
+        Timber.DebugTree() as Timber.Tree
     }
 
-    @Provides
-    fun provideLocationHandler(context: Context): LocationHandler {
-        return FusedLocationHandler(context)
+    factory {
+        FusedLocationHandler(androidContext()) as LocationHandler
     }
 
-    @Provides
-    fun provideNetworkHandler(context: Context): NetworkHandler {
-        return ConnectivityManagerNetworkHandler(context)
+    factory {
+        ConnectivityManagerNetworkHandler(androidContext()) as NetworkHandler
     }
 
-    @Provides
-    @Singleton
-    fun provideWeatherDatabase(context: Context): WeatherDatabase {
-        return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather-db")
+    factory {
+        Room.databaseBuilder(androidContext(), WeatherDatabase::class.java, "weather-db")
             .fallbackToDestructiveMigration()
             .build()
     }
