@@ -12,8 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -54,14 +53,12 @@ dependencies {
     implementation RxDependencies.rxAndroid
     implementation RxDependencies.rxKotlin
 
-    implementation InjectionDependencies.dagger2_android
-    implementation InjectionDependencies.dagger2_androidSupport
-    kapt InjectionDependencies.dagger2_compiler
-    kapt InjectionDependencies.dagger2_annotation
-
     implementation Dependencies.timber
 
-    testImplementation TestingDependencies.junit4
-    androidTestImplementation TestingDependencies.testRunner
-    androidTestImplementation TestingDependencies.espresso
+    testImplementation(UnitTest.junit4)
+
+    androidTestImplementation(AndroidTest.core)
+    androidTestImplementation(AndroidTest.junit)
+    androidTestImplementation(AndroidTest.runner)
+    androidTestImplementation(AndroidTest.espresso)
 }

@@ -31,6 +31,7 @@ object Versions {
     const val glide = "4.8.0"
 
     const val playServices = "15.0.1"
+    const val Koin = "1.0.2"
 }
 
 object Dependencies {
@@ -81,15 +82,29 @@ object RxDependencies {
     const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
 }
 
-object InjectionDependencies {
-    const val dagger2_android = "com.google.dagger:dagger-android:${Versions.dagger2}"
-    const val dagger2_androidSupport = "com.google.dagger:dagger-android-support:${Versions.dagger2}"
-    const val dagger2_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
-    const val dagger2_annotation = "com.google.dagger:dagger-android-processor:${Versions.dagger2}"
-}
-
 object TestingDependencies {
     const val junit4 = "junit:junit:4.12"
     const val testRunner = "com.android.support.test:runner:1.0.2"
     const val espresso = "com.android.support.test.espresso:espresso-core:3.0.2"
+}
+
+object UnitTest {
+    const val junit4 = "junit:junit:4.12"
+    const val mockito = "org.mockito:mockito-inline:2.23.4"
+    const val mockitoKt = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    const val jFixtures = "com.flextrade.jfixture:jfixture:2.7.2"
+}
+
+object AndroidTest {
+    const val core = "androidx.test:core:1.0.0"
+    const val runner = "androidx.test:runner:1.1.0"
+    const val rules = "androidx.test:rules:1.1.0"
+    const val junit = "androidx.test.ext:junit:1.0.0"
+    const val espresso = "androidx.test.espresso:espresso-core:3.1.0"
+}
+
+object Koin {
+    const val android = "org.koin:koin-android:${Versions.Koin}"
+    const val viewModel = "org.koin:koin-androidx-viewmodel:${Versions.Koin}"
+    const val test = "org.koin:koin-test:${Versions.Koin}"
 }

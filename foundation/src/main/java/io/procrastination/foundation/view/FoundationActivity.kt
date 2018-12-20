@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import dagger.android.AndroidInjection
 import timber.log.Timber
 
 abstract class FoundationActivity<VB : ViewDataBinding, VM : FoundationViewModel<*>>

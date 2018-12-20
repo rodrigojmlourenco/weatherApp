@@ -14,7 +14,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -73,15 +73,24 @@ dependencies {
 
     implementation(Dependencies.timber)
 
-    implementation 'org.koin:koin-android:1.0.2'
-    implementation 'org.koin:koin-androidx-viewmodel:1.0.2'
+    implementation(Koin.android)
+    implementation(Koin.viewModel)
 
     implementation(Dependencies.glide)
 
     kapt(ArchDependencies.roomCompiler)
     kapt(Dependencies.glideCompiler)
 
-    testImplementation(TestingDependencies.junit4)
-    androidTestImplementation(TestingDependencies.testRunner)
-    androidTestImplementation(TestingDependencies.espresso)
+    testImplementation(UnitTest.junit4)
+    testImplementation(UnitTest.mockito)
+    testImplementation(UnitTest.mockitoKt)
+    testImplementation(UnitTest.jFixtures)
+    testImplementation(Koin.test)
+
+    androidTestImplementation(Koin.test)
+    androidTestImplementation(AndroidTest.core)
+    androidTestImplementation(AndroidTest.runner)
+    androidTestImplementation(AndroidTest.rules)
+    androidTestImplementation(AndroidTest.junit)
+    androidTestImplementation(AndroidTest.espresso)
 }
