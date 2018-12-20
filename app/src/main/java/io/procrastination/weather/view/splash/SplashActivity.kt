@@ -7,11 +7,9 @@ import io.procrastination.foundation.view.FoundationActivity
 import io.procrastination.sample.BR
 import io.procrastination.sample.R
 import io.procrastination.sample.databinding.ActivitySplashBinding
-import io.procrastination.weather.domain.UseCaseGetWeatherInfo
 import io.procrastination.weather.view.RC_LOCATION
 import io.procrastination.weather.view.home.HomeActivity
-import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 

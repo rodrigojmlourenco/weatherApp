@@ -24,7 +24,7 @@ import io.procrastination.weather.domain.model.WEST
 import io.procrastination.weather.domain.protocols.NetworkHandler
 import io.reactivex.functions.Consumer
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class HomeActivity : FoundationActivity<ActivityHomeBinding, HomeViewModel>(), HomeNavigator {

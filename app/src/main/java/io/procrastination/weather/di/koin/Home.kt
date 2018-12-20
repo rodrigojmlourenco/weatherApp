@@ -2,7 +2,8 @@ package io.procrastination.weather.di.koin
 
 import io.procrastination.weather.view.home.HomeNavigator
 import io.procrastination.weather.view.home.HomeViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
+import org.koin.androidx.viewmodel.ext.koin.viewModel
+
 import org.koin.dsl.module.module
 
 val home = module {
