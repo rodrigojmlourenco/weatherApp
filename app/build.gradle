@@ -87,10 +87,11 @@ dependencies {
     testImplementation(UnitTest.jFixtures)
     testImplementation(Koin.test)
 
-    androidTestImplementation(Koin.test)
+    androidTestImplementation(Koin.test){ exclude group: 'org.mockito' }
     androidTestImplementation(AndroidTest.core)
     androidTestImplementation(AndroidTest.runner)
     androidTestImplementation(AndroidTest.rules)
     androidTestImplementation(AndroidTest.junit)
     androidTestImplementation(AndroidTest.espresso)
+    androidTestImplementation("org.mockito:mockito-android:2.7.15")
 }
