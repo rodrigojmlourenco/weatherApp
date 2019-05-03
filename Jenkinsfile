@@ -14,6 +14,9 @@ pipeline {
     }
 
     stage('Build'){
+      when {
+        branch 'master'
+      }
       steps {    
         echo 'Building...'
         sh './gradlew build'
@@ -27,6 +30,9 @@ pipeline {
     }
 
     stage('Deploy'){
+      when {
+        branch 'master'
+      }
       steps {
         echo 'Deploying...'
         sh './gradlew check'
