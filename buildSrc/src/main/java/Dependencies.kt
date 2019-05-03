@@ -1,6 +1,6 @@
 object Versions {
-    const val gradle = "3.2.1"
-    const val kotlin = "1.3.10"
+    const val gradle = "3.4.0"
+    const val kotlin = "1.3.31"
 
     // Support Lib
     const val support = "27.1.1"
