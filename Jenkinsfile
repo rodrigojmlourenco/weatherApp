@@ -1,7 +1,5 @@
 pipeline {
-  agent {
-    docker { image 'runmymind/docker-android-sdk' }
-  }
+  agent any
 
   stages {
     stage('Build'){
