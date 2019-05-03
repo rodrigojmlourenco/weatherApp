@@ -1,25 +1,35 @@
 pipeline {
   agent any
 
+  triggers {
+    pollSCM('*/5 * * * *')
+  }
+
   stages {
-    stage('Build'){
+
+    stage('Warm Up'){
       steps {
+        sh './gradlew tasks'
+      }
+    }
+
+    stage('Build'){
+      steps {    
         echo 'Building...'
-        sh 'ls'
         sh './gradlew build'
       }
     }
 
     stage('Test'){
       steps {
-        echo 'Testing...'
-        sh 'gradle check'
+        sh './gradlew check'
       }
     }
 
     stage('Deploy'){
       steps {
         echo 'Deploying...'
+        sh './gradlew check'
       }
     }
   }
