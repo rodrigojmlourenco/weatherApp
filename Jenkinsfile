@@ -42,7 +42,8 @@ pipeline {
 
   post {
     always {
-      archiveArtifacts artifacts: 'outputs', fingerprint: true
+      sh 'tar -czvf outputs.tar.gz outputs'
+      archiveArtifacts artifacts: 'outputs.tag.gz', fingerprint: true
     }
   }
 }
