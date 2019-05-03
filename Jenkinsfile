@@ -2,24 +2,24 @@ pipeline {
   agent any
 
   stages {
+
     stage('Build'){
-      steps {
+      steps {    
         echo 'Building...'
-        sh 'ls'
         sh './gradlew build'
       }
     }
 
     stage('Test'){
       steps {
-        echo 'Testing...'
-        sh 'gradle check'
+        sh './gradlew check'
       }
     }
 
     stage('Deploy'){
       steps {
         echo 'Deploying...'
+        sh './gradlew check'
       }
     }
   }
