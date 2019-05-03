@@ -19,13 +19,13 @@ pipeline {
       }
       steps {    
         echo 'Building...'
-        sh './gradlew build'
+        sh './gradlew -w build'
       }
     }
 
     stage('Test'){
       steps {
-        sh './gradlew check'
+        sh './gradlew -w check'
       }
     }
 
@@ -35,14 +35,14 @@ pipeline {
       }
       steps {
         echo 'Deploying...'
-        sh './gradlew check'
+        sh './gradlew -w check'
       }
     }
   }
 
   post {
     always {
-      junit '**/build/reports/**/*.xml'
+      archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
     }
   }
 }
