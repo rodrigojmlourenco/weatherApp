@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  triggers {
+    pollSCM('*/5 * * * *')
+  }
+
   stages {
 
     stage('Warm Up'){
@@ -10,6 +14,9 @@ pipeline {
     }
 
     stage('Build'){
+      when {
+        branch 'master'
+      }
       steps {    
         echo 'Building...'
         sh './gradlew -w build'
@@ -23,11 +30,20 @@ pipeline {
     }
 
     stage('Deploy'){
+      when {
+        branch 'master'
+      }
       steps {
         echo 'Deploying...'
         sh './gradlew -w check'
       }
     }
   }
-  
+
+  post {
+    always {
+      sh 'tar -czvf outputs.tar.gz outputs'
+      archiveArtifacts artifacts: 'outputs.tag.gz', fingerprint: true
+    }
+  }
 }
