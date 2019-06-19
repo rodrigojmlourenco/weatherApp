@@ -3,21 +3,31 @@ pipeline {
 
   stages {
 
-    stage('Warm Up'){
-      steps {
-        sh './gradlew tasks'
-      }
-    }
-
     stage('Build'){
       steps {    
         echo 'Building...'
-        sh './gradlew -w build'
+        sh './gradlew -w assemble'
+      }
+    }
+
+    stage('Quality'){
+      environment{
+        scannerHome = tool 'sonarScanner'
+      }
+
+      steps{
+        withSonarQubeEnv('SonarQube'){
+          sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=weather-app -Dsonar.sources=. -Dsonar.java.binaries=."
+        }
+
+        timeout(time: 10, unit: 'MINUTES'){
+          waitForQualityGate abortPipeline: true
+        }
       }
     }
 
     stage('Test'){
-      steps {
+      steps {  
         sh './gradlew -w check'
       }
     }
@@ -25,9 +35,8 @@ pipeline {
     stage('Deploy'){
       steps {
         echo 'Deploying...'
-        sh './gradlew -w check'
       }
     }
   }
-  
+
 }
