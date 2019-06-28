@@ -38,6 +38,8 @@ class UseCaseGetWeatherInfoTest {
 
         Assert.assertEquals(tawarano, response)
         Assert.assertEquals(tawarano, cachedResponse)
+
+        Assert.assertFalse(true)
     }
 
     @Test
