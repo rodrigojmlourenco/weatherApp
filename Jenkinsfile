@@ -3,6 +3,16 @@ pipeline {
 
   stages {
 
+    stage('Fail Fast'){
+        when { 
+          branch 'spike/*' 
+        }
+
+        steps {
+          sh './gradlew -w test'
+        }
+      }
+
     stage('Build'){
       steps {    
         echo 'Building...'
@@ -34,22 +44,30 @@ pipeline {
 
     stage('Deploy'){
 
-      when { branch 'master' }
+      when { 
+        allOf {
+          branch 'master'
+        }
+      }
 
       input {
-          message "Should we continue?"
+          message "Should we deploy?"
           ok "Yes, we should."
           submitter "alice,bob"
           parameters {
-              string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+              string(name: 'CONTINUE', defaultValue: 'no')
           }
       }
 
       steps {
-        echo 'Deploying...'
-        echo "Hello, ${PERSON}, nice to meet you."
+        script {
+            if(${CONTINUE} == "yes"){
+                echo 'Deploying...'
+            } else {
+                echo 'Skipping deployment'
+            }
+        }
       }
     }
   }
-
 }
