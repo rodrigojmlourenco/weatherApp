@@ -1,6 +1,6 @@
 test {
     reports {
-        junitXml.enabled = false
+        junitXml.enabled = true
         html.enabled = true
         html.destination = file("$rootDir/outputs/test/$name/${project.name}.html")
     }

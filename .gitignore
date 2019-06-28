@@ -1,3 +1,5 @@
+.scannerwork/**
+.idea/sonarlint/**
 
 # Created by https://www.gitignore.io/api/java,gradle,kotlin,android,androidstudio
 # app/src/main/res/values/keys.xml
