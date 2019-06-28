@@ -4,6 +4,7 @@ pipeline {
   stages {
 
     stage('Fail Fast'){
+
         when { 
           branch 'spike/*' 
         }
@@ -11,7 +12,7 @@ pipeline {
         steps {
           sh './gradlew -w test'
         }
-      }
+    }
 
     stage('Build'){
       steps {    
