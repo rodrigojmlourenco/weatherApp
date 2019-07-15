@@ -42,33 +42,5 @@ pipeline {
         sh './gradlew -w check'
       }
     }
-
-    stage('Deploy'){
-
-      when { 
-        allOf {
-          branch 'master'
-        }
-      }
-
-      input {
-          message "Should we deploy?"
-          ok "Yes, we should."
-          submitter "alice,bob"
-          parameters {
-              string(name: 'CONTINUE', defaultValue: 'no')
-          }
-      }
-
-      steps {
-        script {
-            if(${CONTINUE} == "yes"){
-                echo 'Deploying...'
-            } else {
-                echo 'Skipping deployment'
-            }
-        }
-      }
-    }
   }
 }
